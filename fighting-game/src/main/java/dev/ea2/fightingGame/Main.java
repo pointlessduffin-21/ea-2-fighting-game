@@ -1,7 +1,9 @@
 package dev.ea2.fightingGame;
 
+import dev.ea2.fightingGame.frontEnd.mainMenu;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        new mainMenu();
     }
 }
