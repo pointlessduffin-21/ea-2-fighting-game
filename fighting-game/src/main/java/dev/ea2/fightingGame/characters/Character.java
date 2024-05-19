@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.event.KeyEvent;
+import java.awt.Graphics2D;
 
 @Data // Generates getters, setters, toString, equals, and hashCode methods
 @AllArgsConstructor // Generates a constructor with all arguments
@@ -12,31 +12,23 @@ import java.awt.event.KeyEvent;
 public class Character {
 
     private int health;
-    private int x;
-    private int y;
-    private KeyHandler keyHandler;
+    public int x;
+    public int y;
+    public int speed;
+    public int height;
+    public int width;
 
+    
+ 
     // This method will be used to update the character's position
     public void update() {
-        if (keyHandler.isKeyDown(KeyEvent.VK_UP)) {
-            y -= 1; // Move character up
-        }
-        if (keyHandler.isKeyDown(KeyEvent.VK_DOWN)) {
-            y += 1; // Move character down
-        }
-        if (keyHandler.isKeyDown(KeyEvent.VK_LEFT)) {
-            x -= 1; // Move character left
-        }
-        if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
-            x += 1; // Move character right
-        }
-        if (keyHandler.isPunchKeyPressed()) {
-            System.out.println("Punch!");
-        }
-        if (keyHandler.isKickKeyPressed()) {
-            System.out.println("Kick!");
-        }
-        System.out.println("Character position: (" + x + ", " + y + ")");
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
+
+    public void draw(Graphics2D g) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'paintComponent'");
+    }
+    
 }
 // Path: ea-2-fighting-game/fighting-game/src/main/java/dev/ea2/fightingGame/characters/EnemyCharacter.java

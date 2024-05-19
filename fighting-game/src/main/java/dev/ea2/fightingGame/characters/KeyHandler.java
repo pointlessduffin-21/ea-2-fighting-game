@@ -6,10 +6,31 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     private boolean[] keys;
+    private boolean[] keysPressed;
+    private boolean[] keysFired;
 
     public KeyHandler() {
         keys = new boolean[256];
+        keysPressed = new boolean[KeyEvent.KEY_LAST + 1];
+        keysFired = new boolean[KeyEvent.KEY_LAST + 1];
     }
+
+    public boolean isKeyPressed(int keyCode) {
+        if (keyCode >= 0 && keyCode < keysPressed.length) {
+            boolean keyDown = keysPressed[keyCode];
+            boolean keyFired = keysFired[keyCode];
+
+            // If key is pressed and has not been fired yet, return true
+            if (keyDown && !keyFired) {
+                keysFired[keyCode] = true; // Mark the key as fired
+                return true;
+            } else if (!keyDown) {
+                keysFired[keyCode] = false; // Reset fired state if key is released
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -17,6 +38,7 @@ public class KeyHandler implements KeyListener {
         if (keyCode >= 0 && keyCode < keys.length) {
             keys[keyCode] = true;
         }
+       
     }
 
     @Override
@@ -25,6 +47,7 @@ public class KeyHandler implements KeyListener {
         if (keyCode >= 0 && keyCode < keys.length) {
             keys[keyCode] = false;
         }
+   
     }
 
     @Override
@@ -42,9 +65,6 @@ public class KeyHandler implements KeyListener {
     public boolean isPunchKeyPressed() {
         return isKeyDown(KeyEvent.VK_Z); // Assuming 'Z' key for punch
     }
-
-    public boolean isKickKeyPressed() {
-        return isKeyDown(KeyEvent.VK_X); // Assuming 'X' key for kick
-    }
+    
 }
 // Path: ea-2-fighting-game/fighting-game/src/main/java/dev/ea2/fightingGame/characters/Character.java
