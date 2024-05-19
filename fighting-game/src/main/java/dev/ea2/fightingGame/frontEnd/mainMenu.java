@@ -12,6 +12,7 @@ public class mainMenu extends JFrame {
     private JButton playButton;
     private JButton quitButton;
     private JLabel titleLabel;
+    private characterSelect1 characterSelectWindow;
 
     public mainMenu() {
         setTitle("Fighting Game");
@@ -38,10 +39,13 @@ public class mainMenu extends JFrame {
         playButton.setOpaque(true);
         playButton.setContentAreaFilled(false);
         playButton.setBorderPainted(true);
+        characterSelectWindow = new characterSelect1();
+
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new characterSelect();
+                mainMenu.this.setVisible(false); // Hide the current window
+                characterSelectWindow.setVisible(true); // Show the characterSelect1 window
             }
         });
         playPanel.add(playButton);
