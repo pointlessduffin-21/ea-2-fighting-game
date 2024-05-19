@@ -7,7 +7,8 @@ public class Game extends JPanel{
 
     private KeyHandler keyHandler = new KeyHandler();
     PlayerCharacter player = new PlayerCharacter(5, 50, 250, 5, 100, 100, keyHandler, "Hero", new String[]{"Punch", "Kick"});
-    PW pw = new PW(5, 30, 250, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
+    PW pw = new PW(5, 30, 250, 15, 100, 100, keyHandler, "Phoenix Wright", new String[] { "Objection!", "Present" });
+    ME me = new ME(5, 630, 250, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
 
 
     public static void main(String[] args) {
@@ -36,6 +37,7 @@ public class Game extends JPanel{
         // Timer to call update periodically for both characters
         Timer timer = new Timer(60, e -> {
             pw.update();
+            me.update();
             repaint();
         });
         timer.start();
@@ -48,6 +50,7 @@ public class Game extends JPanel{
         Graphics2D g2 = (Graphics2D) g;
 
         pw.draw(g2);
+        me.draw(g2);
 
         g2.dispose();
     }
