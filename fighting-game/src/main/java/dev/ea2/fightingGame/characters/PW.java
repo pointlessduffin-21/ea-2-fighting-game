@@ -98,12 +98,12 @@ public class PW extends Character {
                 action = "crouch";
             }
         } else if (isJumping) {
-            if (keyHandler.isKeyDown(KeyEvent.VK_LEFT)) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 660) {
                 super.x += super.speed; // Move character right
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
@@ -117,12 +117,12 @@ public class PW extends Character {
         } else {
 
             action = "idle";
-            if (keyHandler.isKeyDown(KeyEvent.VK_LEFT)) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "back";
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 660) {
                 super.x += super.speed; // Move character right
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "forward";
