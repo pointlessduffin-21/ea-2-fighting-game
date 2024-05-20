@@ -28,7 +28,7 @@ public class mainMenu extends JFrame {
 
         setLayout(new GridLayout(3, 1));
 
-        titleLabel = new JLabel("Fighting Game", SwingConstants.CENTER);
+        titleLabel = new JLabel("Order in the Court", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
         add(titleLabel);
 

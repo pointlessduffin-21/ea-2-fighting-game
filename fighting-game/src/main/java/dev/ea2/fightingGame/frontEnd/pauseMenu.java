@@ -4,6 +4,13 @@
  */
 package dev.ea2.fightingGame.frontEnd;
 
+import dev.ea2.fightingGame.characters.Game;
+
+import javax.swing.*;
+import java.awt.*;
+
+import static java.lang.System.exit;
+
 /**
  *
  * @author yeems214
@@ -13,8 +20,8 @@ public class pauseMenu extends javax.swing.JFrame {
     /**
      * Creates new form aboutus
      */
-    public pauseMenu() {
-        initComponents();
+    public pauseMenu(String imageFile) {
+        initComponents(imageFile);
     }
 
     /**
@@ -24,15 +31,17 @@ public class pauseMenu extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(String imageFile) {
 
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        JFrame frame = new JFrame("Pause Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1280, 720);
+        frame.setLayout(new BorderLayout());
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -44,7 +53,7 @@ public class pauseMenu extends javax.swing.JFrame {
         jButton2.setText("Resume");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                Game.gago(imageFile);
             }
         });
         getContentPane().add(jButton2);
@@ -54,7 +63,7 @@ public class pauseMenu extends javax.swing.JFrame {
         jButton1.setText("Quit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                exit(0);
             }
         });
         getContentPane().add(jButton1);
@@ -79,7 +88,7 @@ public class pauseMenu extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void pauseActual(String imageFile) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -106,7 +115,7 @@ public class pauseMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new pauseMenu().setVisible(true);
+                new pauseMenu(imageFile).setVisible(true);
             }
         });
     }
