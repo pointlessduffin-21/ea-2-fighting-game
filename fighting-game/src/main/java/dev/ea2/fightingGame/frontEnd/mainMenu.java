@@ -15,7 +15,7 @@ public class mainMenu extends JFrame {
     private characterSelect1 characterSelectWindow;
 
     public mainMenu() {
-        setTitle("Fighting Game");
+        setTitle("Contempt in Court");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
         setLayout(new GridLayout(3, 1));
