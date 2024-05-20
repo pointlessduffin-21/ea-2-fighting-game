@@ -28,8 +28,9 @@ public class ME extends Character {
     private boolean isJumping = false;
     private int velocityY;
     private final int maxJumpHeight = 50;
-    private final int jumpStrength = 15;
+    private final int jumpStrength = 25;
     private final int gravity = 4;
+    private final int ground = 600;
 
     public BufferedImage idle, forward, back, crouch, jump, low, high, attack, special;
     public String action = "idle";
@@ -76,8 +77,8 @@ public class ME extends Character {
             velocityY += gravity; // Simulates the effect of gravity
 
             // Check if character has reached the maximum height or is coming down
-            if (velocityY > 0 && super.y >= 250) { // Assuming groundLevel is the y-coordinate of the ground (50)
-                super.y = 250; // Reset to ground level
+            if (velocityY > 0 && super.y >= ground) { // Assuming groundLevel is the y-coordinate of the ground (50)
+                super.y = ground; // Reset to ground level
                 action = "idle";
                 isJumping = false;
                 velocityY = 0;
