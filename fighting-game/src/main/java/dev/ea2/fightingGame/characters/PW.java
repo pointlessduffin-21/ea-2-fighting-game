@@ -181,8 +181,8 @@ public class PW extends Character {
                 break;
         }
 
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
+        int imageWidth = image.getWidth() * 2;
+        int imageHeight = image.getHeight() * 2;
         
       // Calculate the drawing position based on the character's position and the image height
         int drawY = super.y + super.height - imageHeight;

@@ -7,12 +7,11 @@ public class Game extends JPanel{
 
     private KeyHandler keyHandler = new KeyHandler();
     PlayerCharacter player = new PlayerCharacter(5, 50, 250, 5, 100, 100, keyHandler, "Hero", new String[]{"Punch", "Kick"});
-    PW pw = new PW(5, 30, 250, 15, 100, 100, keyHandler, "Phoenix Wright", new String[] { "Objection!", "Present" });
-    ME me = new ME(5, 630, 250, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
+    PW pw = new PW(5, 30, 720, 15, 100, 100, keyHandler, "Phoenix Wright", new String[] { "Objection!", "Present" });
+    ME me = new ME(5, 1250, 720, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
 
 
-    public static void main(String[] args) {
-        // Create the Game instance to access its non-static members
+    public static void gago(String imageFile) {
         Game game = new Game();
         game.start();
     }
@@ -21,7 +20,7 @@ public class Game extends JPanel{
 
         JFrame frame = new JFrame("Character Movement Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(1280, 720);
         frame.setLayout(new BorderLayout());
         
         // Add the Game panel to the frame
