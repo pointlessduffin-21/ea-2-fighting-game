@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class ME extends Character {
     private KeyHandler keyHandler;
     private boolean isJumping = false;
     private boolean isCrouching = false;
+    private boolean isHit = false;
     private int velocityY;
     private final int maxJumpHeight = 50;
     private final int jumpStrength = 25;
@@ -34,6 +36,8 @@ public class ME extends Character {
 
     public BufferedImage idle, forward, back, crouch, jump, low, high, attack, special;
     public String action = "idle";
+
+    public Rectangle hitbox = new Rectangle(0, 0, 0, 0);
 
     public ME(int health, int x, int y, int speed, int h, int w, KeyHandler keyHandler, String name,
             String[] specialMoves) {
