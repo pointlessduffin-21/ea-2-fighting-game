@@ -58,6 +58,20 @@ public class mainMenu extends JFrame {
                 System.exit(0);
             }
         });
+
+        KeyStroke pKeyStroke = KeyStroke.getKeyStroke('p');
+
+        Action openAboutUsAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenu.this.setVisible(false);
+                aboutus.deez();
+            }
+        };
+
+        getRootPane().getActionMap().put("openAboutUs", openAboutUsAction);
+
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(pKeyStroke, "openAboutUs");
         quitPanel.add(quitButton);
         add(quitPanel);
 

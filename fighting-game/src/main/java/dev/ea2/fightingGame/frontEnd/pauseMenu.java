@@ -17,11 +17,20 @@ import static java.lang.System.exit;
  */
 public class pauseMenu extends javax.swing.JFrame {
 
+    private Game game;
+    private String imageFile;
+    private int PWHealth;
+    private int MEHealth;
+
     /**
      * Creates new form aboutus
      */
-    public pauseMenu(String imageFile) {
+    public pauseMenu(Game game, String imageFile, int PWHealth, int MEHealth) {
         initComponents(imageFile);
+        this.game = game;
+        this.imageFile = imageFile;
+        this.PWHealth = PWHealth;
+        this.MEHealth = MEHealth;
     }
 
     /**
@@ -54,7 +63,7 @@ public class pauseMenu extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pauseMenu.this.setVisible(false);
-                Game.gago(imageFile);
+                game.gago(imageFile); // Resume the game
             }
         });
         getContentPane().add(jButton2);
@@ -88,7 +97,7 @@ public class pauseMenu extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void pauseActual(String imageFile) {
+    public static void pauseActual(Game game, String imageFile, int PWHealth, int MEHealth) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -115,7 +124,7 @@ public class pauseMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new pauseMenu(imageFile).setVisible(true);
+                new pauseMenu(game, imageFile, PWHealth, MEHealth).setVisible(true);
             }
         });
     }

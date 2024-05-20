@@ -16,6 +16,16 @@ public class Game extends JPanel{
     public int PWHealth = 5;
     public int MEHealth = 5;
 
+    private String imageFile; // Add this line
+
+    public Game(int PWHealth, int MEHealth, String imageFile) { // Modify this line
+        this.PWHealth = PWHealth;
+        this.MEHealth = MEHealth;
+        this.imageFile = imageFile; // Add this line
+    }
+
+    private Timer timer;
+
     private BufferedImage pwHeart;
     private BufferedImage mwHeart;
 
@@ -26,8 +36,14 @@ public class Game extends JPanel{
     ME me = new ME(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
 
     public static void gago(String imageFile) {
-        Game game = new Game();
+        Game game = new Game(5, 5, imageFile);
         game.start(imageFile);
+    }
+
+    public void pause() {
+        timer.stop();
+        this.setVisible(false);
+        pauseMenu.pauseActual(this, imageFile, PWHealth, MEHealth);
     }
 
     private void start(String imageFile) {
@@ -55,17 +71,17 @@ public class Game extends JPanel{
             e.printStackTrace();
         }
         // Timer to call update periodically for both characters
-        Timer timer = new Timer(60, e -> {
+        timer = new Timer(60, e -> {
             pw.update();
             me.update();
             repaint();
 
             if (PWHealth <= 0) {
-                ((Timer)e.getSource()).stop();
+                timer.stop();
                 Game.this.setVisible(false);
                 gameOver.screen();
             } else if (MEHealth <= 0) {
-                ((Timer)e.getSource()).stop();
+                timer.stop();
                 Game.this.setVisible(false);
                 gameOver.screen();
             }
@@ -77,7 +93,7 @@ public class Game extends JPanel{
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     Game.this.setVisible(false);
-                    pauseMenu.pauseActual(imageFile);
+                    pause();
                 }
             }
         });
