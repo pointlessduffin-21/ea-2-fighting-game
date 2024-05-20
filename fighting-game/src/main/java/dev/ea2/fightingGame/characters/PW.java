@@ -104,7 +104,7 @@ public class PW extends Character {
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 660) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
                 super.x += super.speed; // Move character right
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
@@ -123,7 +123,7 @@ public class PW extends Character {
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "back";
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 660) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
                 super.x += super.speed; // Move character right
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "forward";

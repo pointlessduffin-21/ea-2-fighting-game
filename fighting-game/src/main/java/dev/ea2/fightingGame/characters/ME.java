@@ -83,7 +83,7 @@ public class ME extends Character {
                 isJumping = false;
                 velocityY = 0;
             }
-            System.out.println("Phoenix position: (" + x + ", " + y + ")");
+            System.out.println("Miles position: (" + x + ", " + y + ")");
         }
 
         // Handle key inputs for other actions
@@ -101,12 +101,12 @@ public class ME extends Character {
         } else if (isJumping) {
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
-                System.out.println("Phoenix position: (" + x + ", " + y + ")");
+                System.out.println("Miles position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 660) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
                 super.x += super.speed; // Move character right
-                System.out.println("Phoenix position: (" + x + ", " + y + ")");
+                System.out.println("Miles position: (" + x + ", " + y + ")");
 
             }
             if (keyHandler.isPunchKeyPressed()) {
@@ -120,12 +120,12 @@ public class ME extends Character {
             action = "idle";
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
-                System.out.println("Phoenix position: (" + x + ", " + y + ")");
+                System.out.println("Miles position: (" + x + ", " + y + ")");
                 action = "back";
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 660) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
                 super.x += super.speed; // Move character right
-                System.out.println("Phoenix position: (" + x + ", " + y + ")");
+                System.out.println("Miles position: (" + x + ", " + y + ")");
                 action = "forward";
             }
             if (keyHandler.isPunchKeyPressed()) {
@@ -187,7 +187,8 @@ public class ME extends Character {
         
       // Calculate the drawing position based on the character's position and the image height
       int drawY = super.y + super.height - imageHeight;
-        int drawx = super.x + super.width - imageWidth;
+      int drawx = super.x + super.width - imageWidth;
+      System.out.print("X for edgey: " + drawx);
 
         // Draw the image with the same bottom position
         g2.drawImage(image, drawx, drawY, imageWidth, imageHeight, null);

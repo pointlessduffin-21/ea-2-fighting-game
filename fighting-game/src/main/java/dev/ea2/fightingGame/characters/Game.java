@@ -18,10 +18,10 @@ public class Game extends JPanel{
 
     public static void gago(String imageFile) {
         Game game = new Game();
-        game.start();
+        game.start("/characters/PW/PW_idle.png");
     }
 
-    private void start() {
+    private void start(String imageFile) {
 
         JFrame frame = new JFrame("Character Movement Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +38,13 @@ public class Game extends JPanel{
       
         frame.setVisible(true);
 
+        try {
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream(imageFile));
+           
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // Timer to call update periodically for both characters
         Timer timer = new Timer(60, e -> {
             pw.update();
@@ -52,14 +59,8 @@ public class Game extends JPanel{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        try {
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/maps/Court.png"));
-            System.out.print("Bogos Binted");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        
+    
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             System.out.print("sex");
