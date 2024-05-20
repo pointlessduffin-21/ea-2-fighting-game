@@ -44,11 +44,11 @@ public class characterSelect1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton5 = new javax.swing.JButton();
+        officeProsecutors = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        officesWright = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        theCourtroom = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -58,45 +58,45 @@ public class characterSelect1 extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jButton5.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton5.setText("Sakura");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        officeProsecutors.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        officeProsecutors.setText("Sakura");
+        officeProsecutors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                officeProsecutorsActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton5);
-        jButton5.setBounds(950, 510, 190, 60);
+        getContentPane().add(officeProsecutors);
+        officeProsecutors.setBounds(950, 510, 190, 60);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/sakura.jpg"))); // NOI18N
         jLabel6.setText("jLabel3");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(870, 110, 360, 380);
 
-        jButton4.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton4.setText("Neighborhood");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        officesWright.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        officesWright.setText("Neighborhood");
+        officesWright.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                officesWrightActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4);
-        jButton4.setBounds(540, 510, 190, 60);
+        getContentPane().add(officesWright);
+        officesWright.setBounds(540, 510, 190, 60);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/house.jpg"))); // NOI18N
         jLabel5.setText("jLabel3");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(460, 110, 360, 380);
 
-        jButton3.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jButton3.setText("The Forest");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        theCourtroom.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        theCourtroom.setText("The Forest");
+        theCourtroom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                theCourtroomActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3);
-        jButton3.setBounds(150, 510, 190, 60);
+        getContentPane().add(theCourtroom);
+        theCourtroom.setBounds(150, 510, 190, 60);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/forest.jpg"))); // NOI18N
         jLabel4.setText("jLabel3");
@@ -136,17 +136,20 @@ public class characterSelect1 extends javax.swing.JFrame {
         new mainMenu();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Game.gago(null);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    public void officeProsecutorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officeProsecutorsActionPerformed
+        String imageFile = "/images/maps/thumbnails/forest.jpg";
+        Game.gago(imageFile);
+    }//GEN-LAST:event_officeProsecutorsActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Game.gago(null);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void officesWrightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officesWrightActionPerformed
+        String imageFile = "/images/maps/thumbnails/house.jpg";
+        Game.gago(imageFile);
+    }//GEN-LAST:event_officesWrightActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Game.gago(null);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void theCourtroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theCourtroomActionPerformed
+        String imageFile = "/images/maps/thumbnails/house.jpg";
+        Game.gago(imageFile);
+    }//GEN-LAST:event_theCourtroomActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,14 +188,14 @@ public class characterSelect1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton officeProsecutors;
+    private javax.swing.JButton officesWright;
+    private javax.swing.JButton theCourtroom;
     // End of variables declaration//GEN-END:variables
 }

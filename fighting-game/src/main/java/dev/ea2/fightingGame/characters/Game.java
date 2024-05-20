@@ -11,6 +11,7 @@ public class Game extends JPanel{
     ME me = new ME(5, 1250, 720, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
 
 
+
     public static void gago(String imageFile) {
         Game game = new Game();
         game.start();
