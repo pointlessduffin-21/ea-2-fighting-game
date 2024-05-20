@@ -23,7 +23,6 @@ public class PW extends Character {
 
     private String name;
     private String[] specialMoves;
-    Game gp;
     private KeyHandler keyHandler;
     private boolean isJumping = false;
     private boolean isCrouching = false;
@@ -65,21 +64,18 @@ public class PW extends Character {
     @Override
     public void update() {
         getImage();
-        // Handle jumping
         if (keyHandler.isKeyDown(KeyEvent.VK_W) && !isJumping) {
             action = "jump";
             isJumping = true;
             velocityY = -jumpStrength;
         }
 
-        // Apply gravity if the character is jumping
         if (isJumping) {
             super.y += velocityY;
-            velocityY += gravity; // Simulates the effect of gravity
+            velocityY += gravity; 
 
-            // Check if character has reached the maximum height or is coming down
-            if (velocityY > 0 && super.y >= ground) { // Assuming groundLevel is the y-coordinate of the ground (50)
-                super.y = ground; // Reset to ground level
+            if (velocityY > 0 && super.y >= ground) { 
+                super.y = ground; 
                 action = "idle";
                 isJumping = false;
                 velocityY = 0;
@@ -87,12 +83,10 @@ public class PW extends Character {
             System.out.println("Phoenix position: (" + x + ", " + y + ")");
         }
 
-        // Handle key inputs for other actions
         if (keyHandler.isKeyDown(KeyEvent.VK_S) && !isJumping) {
             System.out.println("Crouching");
             isCrouching = true;
             action = "crouch";
-            // Combined action example
             if (keyHandler.isPunchKeyPressed() && isCrouching) {
                 System.out.println(name + ": Desk Slam");
                 action = "low";
@@ -103,12 +97,12 @@ public class PW extends Character {
         } else if (isJumping) {
             isCrouching = false;
             if (keyHandler.isKeyDown(KeyEvent.VK_A) && super.x >= 0) {
-                super.x -= super.speed; // Move character left
+                super.x -= super.speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
             }
             if (keyHandler.isKeyDown(KeyEvent.VK_D) && super.x <= 1165) {
-                super.x += super.speed; // Move character right
+                super.x += super.speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
             }
@@ -122,12 +116,12 @@ public class PW extends Character {
             isCrouching = false;
             action = "idle";
             if (keyHandler.isKeyDown(KeyEvent.VK_A) && super.x >= 0) {
-                super.x -= super.speed; // Move character left
+                super.x -= super.speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "back";
             }
             if (keyHandler.isKeyDown(KeyEvent.VK_D) && super.x <= 1165) {
-                super.x += super.speed; // Move character right
+                super.x += super.speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "forward";
             }
@@ -142,7 +136,6 @@ public class PW extends Character {
                 }
             }
         }
-        // Other key inputs
     }
     
     
@@ -188,10 +181,8 @@ public class PW extends Character {
         int imageWidth = image.getWidth() * 2;
         int imageHeight = image.getHeight() * 2;
         
-      // Calculate the drawing position based on the character's position and the image height
-        int drawY = super.y + super.height - imageHeight;
 
-        // Draw the image with the same bottom position
+        int drawY = super.y + super.height - imageHeight;
         g2.drawImage(image, super.x, drawY, imageWidth, imageHeight, null);
     }
 }
