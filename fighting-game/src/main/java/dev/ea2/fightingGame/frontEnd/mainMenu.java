@@ -36,9 +36,6 @@ public class mainMenu extends JFrame {
         playPanel.setOpaque(false);
         playButton = new JButton("Play");
         playButton.setPreferredSize(new Dimension(100, 50));
-        playButton.setOpaque(true);
-        playButton.setContentAreaFilled(false);
-        playButton.setBorderPainted(true);
         characterSelectWindow = new characterSelect1();
 
         playButton.addActionListener(new ActionListener() {
@@ -55,9 +52,6 @@ public class mainMenu extends JFrame {
         quitPanel.setOpaque(false);
         quitButton = new JButton("Quit");
         quitButton.setPreferredSize(new Dimension(100, 50));
-        quitButton.setOpaque(true);
-        quitButton.setContentAreaFilled(false);
-        quitButton.setBorderPainted(true);
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

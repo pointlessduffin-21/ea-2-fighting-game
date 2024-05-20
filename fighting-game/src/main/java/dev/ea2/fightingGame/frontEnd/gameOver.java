@@ -4,6 +4,9 @@
  */
 package dev.ea2.fightingGame.frontEnd;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  *
  * @author yeems214
@@ -30,8 +33,10 @@ public class gameOver extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        JFrame frame = new JFrame("Game Over");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1280, 720);
+        frame.setLayout(new BorderLayout());
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -43,7 +48,9 @@ public class gameOver extends javax.swing.JFrame {
         jButton1.setText("Main Menu");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                mainMenu mainMenu = new mainMenu();
+                mainMenu.setVisible(true);
+                gameOver.this.setVisible(false);
             }
         });
         getContentPane().add(jButton1);
@@ -64,7 +71,7 @@ public class gameOver extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void screen() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

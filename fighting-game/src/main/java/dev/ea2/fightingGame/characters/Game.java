@@ -1,5 +1,6 @@
 package dev.ea2.fightingGame.characters;
 
+import dev.ea2.fightingGame.frontEnd.gameOver;
 import dev.ea2.fightingGame.frontEnd.pauseMenu;
 
 import javax.imageio.ImageIO;
@@ -58,6 +59,16 @@ public class Game extends JPanel{
             pw.update();
             me.update();
             repaint();
+
+            if (PWHealth <= 0) {
+                ((Timer)e.getSource()).stop();
+                Game.this.setVisible(false);
+                gameOver.screen();
+            } else if (MEHealth <= 0) {
+                ((Timer)e.getSource()).stop();
+                Game.this.setVisible(false);
+                gameOver.screen();
+            }
         });
         timer.start();
 
