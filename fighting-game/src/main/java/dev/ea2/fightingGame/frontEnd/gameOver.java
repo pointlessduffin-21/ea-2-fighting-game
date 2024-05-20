@@ -57,7 +57,6 @@ public class gameOver extends javax.swing.JFrame {
         jButton1.setBounds(590, 360, 150, 50);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1280, 720);
 

@@ -68,7 +68,7 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().add(officeProsecutors);
         officeProsecutors.setBounds(950, 510, 190, 60);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/edgeyOffice.jpg"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/edgeyOffice.jpg"))); // NOI18N
         jLabel6.setText("jLabel3");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(870, 110, 360, 380);
@@ -83,7 +83,7 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().add(officesWright);
         officesWright.setBounds(540, 510, 190, 60);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/office.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/office.jpg"))); // NOI18N
         jLabel5.setText("jLabel3");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(460, 110, 360, 380);
@@ -98,7 +98,7 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().add(theCourtroom);
         theCourtroom.setBounds(150, 510, 190, 60);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/court.jpg"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/court.jpg"))); // NOI18N
         jLabel4.setText("jLabel3");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(60, 110, 360, 380);
