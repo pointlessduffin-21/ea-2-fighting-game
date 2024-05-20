@@ -73,7 +73,9 @@ public class pauseMenu extends javax.swing.JFrame {
         jButton1.setText("Quit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exit(0);
+                mainMenu mainMenu = new mainMenu();
+                mainMenu.setVisible(true);
+                pauseMenu.this.setVisible(false);
             }
         });
         getContentPane().add(jButton1);
