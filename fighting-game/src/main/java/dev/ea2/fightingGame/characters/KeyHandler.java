@@ -63,7 +63,11 @@ public class KeyHandler implements KeyListener {
     }
 
     public boolean isPunchKeyPressed() {
-        return isKeyDown(KeyEvent.VK_Z); // Assuming 'Z' key for punch
+        return isKeyDown(KeyEvent.VK_SPACE); // Assuming 'Z' key for punch
+    }
+
+    public boolean isPunchKeyEPressed() {
+        return isKeyDown(KeyEvent.VK_ENTER); // Assuming 'Z' key for punch
     }
     
 }

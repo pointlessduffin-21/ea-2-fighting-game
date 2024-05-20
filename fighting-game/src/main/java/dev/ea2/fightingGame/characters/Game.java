@@ -108,7 +108,6 @@ public class Game extends JPanel{
     
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-            System.out.print("sex");
         }
         pw.draw(g2);
         me.draw(g2);

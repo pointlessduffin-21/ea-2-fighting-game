@@ -26,6 +26,7 @@ public class ME extends Character {
     Game gp;
     private KeyHandler keyHandler;
     private boolean isJumping = false;
+    private boolean isCrouching = false;
     private int velocityY;
     private final int maxJumpHeight = 50;
     private final int jumpStrength = 25;
@@ -87,11 +88,12 @@ public class ME extends Character {
         }
 
         // Handle key inputs for other actions
-        if (keyHandler.isKeyDown(KeyEvent.VK_DOWN)) {
+        if (keyHandler.isKeyDown(KeyEvent.VK_DOWN) && !isJumping) {
             System.out.println("Crouching");
+            isCrouching = true;
             action = "crouch";
             // Combined action example
-            if (keyHandler.isPunchKeyPressed()) {
+            if (keyHandler.isPunchKeyEPressed() && isCrouching) {
                 System.out.println(name + ": Desk Slam");
                 action = "low";
             
@@ -99,38 +101,39 @@ public class ME extends Character {
                 action = "crouch";
             }
         } else if (isJumping) {
+            isCrouching = false;
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
                 System.out.println("Miles position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1165) {
                 super.x += super.speed; // Move character right
                 System.out.println("Miles position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isPunchKeyPressed()) {
+            if (keyHandler.isPunchKeyEPressed() && isJumping) {
                 System.out.println(name + ": AHHHHHH!");
                 action = "high";
             } else {
                 action = "jump";
             }
         } else {
-
+            isCrouching = false;
             action = "idle";
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
                 System.out.println("Miles position: (" + x + ", " + y + ")");
                 action = "back";
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1165) {
                 super.x += super.speed; // Move character right
                 System.out.println("Miles position: (" + x + ", " + y + ")");
                 action = "forward";
             }
-            if (keyHandler.isPunchKeyPressed()) {
+            if (keyHandler.isPunchKeyEPressed()) {
 
-                if (keyHandler.isKeyDown(KeyEvent.VK_LEFT)) {
+                if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
                     System.out.println("Big ol Finger");
                     action = "special";
                 } else {
@@ -157,10 +160,10 @@ public class ME extends Character {
                 image = idle;
                 break;
             case "forward":
-                image = forward;
+                image = back;
                 break;
             case "back":
-                image = back;
+                image = forward;
                 break;
             case "jump":
                 image = jump;
@@ -188,7 +191,6 @@ public class ME extends Character {
       // Calculate the drawing position based on the character's position and the image height
       int drawY = super.y + super.height - imageHeight;
       int drawx = super.x + super.width - imageWidth;
-      System.out.print("X for edgey: " + drawx);
 
         // Draw the image with the same bottom position
         g2.drawImage(image, drawx, drawY, imageWidth, imageHeight, null);

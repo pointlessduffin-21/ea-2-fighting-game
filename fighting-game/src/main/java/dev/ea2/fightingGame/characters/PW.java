@@ -26,6 +26,7 @@ public class PW extends Character {
     Game gp;
     private KeyHandler keyHandler;
     private boolean isJumping = false;
+    private boolean isCrouching = false;
     private int velocityY;
     private final int maxJumpHeight = 50;
     private final int jumpStrength = 25;
@@ -65,7 +66,7 @@ public class PW extends Character {
     public void update() {
         getImage();
         // Handle jumping
-        if (keyHandler.isKeyDown(KeyEvent.VK_UP) && !isJumping) {
+        if (keyHandler.isKeyDown(KeyEvent.VK_W) && !isJumping) {
             action = "jump";
             isJumping = true;
             velocityY = -jumpStrength;
@@ -87,11 +88,12 @@ public class PW extends Character {
         }
 
         // Handle key inputs for other actions
-        if (keyHandler.isKeyDown(KeyEvent.VK_DOWN)) {
+        if (keyHandler.isKeyDown(KeyEvent.VK_S) && !isJumping) {
             System.out.println("Crouching");
+            isCrouching = true;
             action = "crouch";
             // Combined action example
-            if (keyHandler.isPunchKeyPressed()) {
+            if (keyHandler.isPunchKeyPressed() && isCrouching) {
                 System.out.println(name + ": Desk Slam");
                 action = "low";
             
@@ -99,38 +101,39 @@ public class PW extends Character {
                 action = "crouch";
             }
         } else if (isJumping) {
-            if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
+            isCrouching = false;
+            if (keyHandler.isKeyDown(KeyEvent.VK_A) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_D) && super.x <= 1165) {
                 super.x += super.speed; // Move character right
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
 
             }
-            if (keyHandler.isPunchKeyPressed()) {
+            if (keyHandler.isPunchKeyPressed() && isJumping) {
                 System.out.println(name + ": AHHHHHH!");
                 action = "high";
             } else {
                 action = "jump";
             }
         } else {
-
+            isCrouching = false;
             action = "idle";
-            if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && super.x >= 0) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_A) && super.x >= 0) {
                 super.x -= super.speed; // Move character left
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "back";
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && super.x <= 1280) {
+            if (keyHandler.isKeyDown(KeyEvent.VK_D) && super.x <= 1165) {
                 super.x += super.speed; // Move character right
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "forward";
             }
             if (keyHandler.isPunchKeyPressed()) {
 
-                if (keyHandler.isKeyDown(KeyEvent.VK_LEFT)) {
+                if (keyHandler.isKeyDown(KeyEvent.VK_A)) {
                     System.out.println("Big ol Finger");
                     action = "special";
                 } else {
