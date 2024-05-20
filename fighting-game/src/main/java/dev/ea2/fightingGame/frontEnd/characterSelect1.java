@@ -59,7 +59,7 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         officeProsecutors.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        officeProsecutors.setText("Sakura");
+        officeProsecutors.setText("Edgey Office");
         officeProsecutors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 officeProsecutorsActionPerformed(evt);
@@ -68,13 +68,13 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().add(officeProsecutors);
         officeProsecutors.setBounds(950, 510, 190, 60);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/sakura.jpg"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/edgeyOffice.jpg"))); // NOI18N
         jLabel6.setText("jLabel3");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(870, 110, 360, 380);
 
         officesWright.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        officesWright.setText("Neighborhood");
+        officesWright.setText("Office");
         officesWright.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 officesWrightActionPerformed(evt);
@@ -83,13 +83,13 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().add(officesWright);
         officesWright.setBounds(540, 510, 190, 60);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/house.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/office.jpg"))); // NOI18N
         jLabel5.setText("jLabel3");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(460, 110, 360, 380);
 
         theCourtroom.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        theCourtroom.setText("The Forest");
+        theCourtroom.setText("Court");
         theCourtroom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 theCourtroomActionPerformed(evt);
@@ -98,7 +98,7 @@ public class characterSelect1 extends javax.swing.JFrame {
         getContentPane().add(theCourtroom);
         theCourtroom.setBounds(150, 510, 190, 60);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/forest.jpg"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/maps/thumbnails/court.jpg"))); // NOI18N
         jLabel4.setText("jLabel3");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(60, 110, 360, 380);
@@ -137,17 +137,17 @@ public class characterSelect1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void officeProsecutorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officeProsecutorsActionPerformed
-        String imageFile = "/images/maps/thumbnails/forest.jpg";
+        String imageFile = "/images/maps/thumbnails/edgeyOffice.jpg";
         Game.gago(imageFile);
     }//GEN-LAST:event_officeProsecutorsActionPerformed
 
     private void officesWrightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officesWrightActionPerformed
-        String imageFile = "/images/maps/thumbnails/house.jpg";
+        String imageFile = "/images/maps/thumbnails/office.jpg";
         Game.gago(imageFile);
     }//GEN-LAST:event_officesWrightActionPerformed
 
     private void theCourtroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theCourtroomActionPerformed
-        String imageFile = "/images/maps/thumbnails/house.jpg";
+        String imageFile = "/images/maps/thumbnails/court.jpg";
         Game.gago(imageFile);
     }//GEN-LAST:event_theCourtroomActionPerformed
 

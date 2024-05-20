@@ -18,7 +18,7 @@ public class Game extends JPanel{
 
     public static void gago(String imageFile) {
         Game game = new Game();
-        game.start("/characters/PW/PW_idle.png");
+        game.start(imageFile);
     }
 
     private void start(String imageFile) {
