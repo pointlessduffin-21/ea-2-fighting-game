@@ -33,6 +33,8 @@ public class PW extends Character {
     private final int jumpStrength = 25;
     private final int gravity = 4;
     private final int ground = 600;
+    private int specialTimer = 6;
+    private int frameCounter = 0;
 
     public Rectangle hitbox = new Rectangle(0, 0, 0, 0);
 
@@ -130,14 +132,26 @@ public class PW extends Character {
                 action = "forward";
             }
             if (keyHandler.isPunchKeyPressed()) {
+                System.out.println("Timer: " + specialTimer);
 
-                if (keyHandler.isKeyDown(KeyEvent.VK_A)) {
+                if (keyHandler.isKeyDown(KeyEvent.VK_A) && specialTimer == 6) {
                     System.out.println("Big ol Finger");
                     action = "special";
+                    specialTimer -= 3;
                 } else {
                     System.out.println("Read");
                     action = "attack";
                 }
+            } 
+
+            frameCounter++;
+            
+            if (frameCounter >= 4) {
+                if (specialTimer < 6) {
+                    specialTimer++;
+                    System.out.println("Timer: " + specialTimer);
+                }
+                frameCounter = 0; // Reset the frame counter
             }
         }
     }
