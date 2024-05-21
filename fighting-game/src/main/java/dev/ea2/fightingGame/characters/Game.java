@@ -10,105 +10,117 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.logging.Logger;
 
-public class Game extends JPanel{
+public class Game extends JPanel {
 
-    public int PWHealth = 5;
-    public int MEHealth = 5;
+    private static final Logger logger = Logger.getLogger(Game.class.getName());
 
-    private String imageFile; // Add this line
+    private int PWHealth;
+    private int MEHealth;
 
-    public Game(int PWHealth, int MEHealth, String imageFile) { // Modify this line
-        this.PWHealth = PWHealth;
-        this.MEHealth = MEHealth;
-        this.imageFile = imageFile; // Add this line
-    }
+    private final String imageFile;
 
-    private Timer timer;
+    private final KeyHandler keyHandler = new KeyHandler();
+    private final PW pw;
+    private final ME me;
 
+    private BufferedImage backgroundImage;
     private BufferedImage pwHeart;
     private BufferedImage mwHeart;
 
-    private KeyHandler keyHandler = new KeyHandler();
-    private BufferedImage backgroundImage;
-    PlayerCharacter player = new PlayerCharacter(5, 50, 250, 5, 100, 100, keyHandler, "Hero", new String[]{"Punch", "Kick"});
-    PW pw = new PW(PWHealth, 30, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[] { "Objection!", "Present" });
-    ME me = new ME(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
+    private Timer timer;
 
-    public static void gago(String imageFile) {
+    // Constructor
+    public Game(int PWHealth, int MEHealth, String imageFile) {
+        this.PWHealth = PWHealth;
+        this.MEHealth = MEHealth;
+        this.imageFile = imageFile;
+
+        // Initialize characters
+        pw = new PW(PWHealth, 210, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
+        me = new ME(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
+    }
+
+    // Method to start the game
+    public static void StartGameWithImage(String imageFile) {
         Game game = new Game(5, 5, imageFile);
         game.start(imageFile);
     }
 
+    // Method to pause the game
     public void pause() {
         timer.stop();
-        this.setVisible(false);
+        setVisible(false);
         pauseMenu.pauseActual(this, imageFile, PWHealth, MEHealth);
     }
 
+    // Method to initialize and start the game
     private void start(String imageFile) {
-
+        // Create JFrame
         JFrame frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
         frame.setLayout(new BorderLayout());
-     
+
+        // Add key listener to JPanel
         JPanel panel = new JPanel();
         panel.setFocusable(true);
         panel.addKeyListener(keyHandler);
         frame.add(panel, BorderLayout.CENTER);
         frame.add(this);
-      
-        frame.setVisible(true);
 
+        // Load images
         try {
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream(imageFile));
-            pwHeart = ImageIO.read(getClass().getResourceAsStream("/images/icons/pwHeart.png"));
-            mwHeart = ImageIO.read(getClass().getResourceAsStream("/images/icons/mwHeart.png"));
-           
+            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imageFile)));
+            pwHeart = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/pwHeart.png")));
+            mwHeart = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/mwHeart.png")));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.severe("Error loading images for " + imageFile);
         }
-        // Timer to call update periodically for both characters
+
+        // Set timer to update game state periodically
         timer = new Timer(60, e -> {
             pw.update();
             me.update();
             repaint();
 
-            if (PWHealth <= 0) {
+            // Check for game over conditions
+            if (PWHealth <= 0 || MEHealth <= 0) {
                 timer.stop();
-                Game.this.setVisible(false);
-                gameOver.screen();
-            } else if (MEHealth <= 0) {
-                timer.stop();
-                Game.this.setVisible(false);
+                setVisible(false);
                 gameOver.screen();
             }
         });
         timer.start();
 
+        // Add key listener to pause the game
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    Game.this.setVisible(false);
+                    setVisible(false);
                     pause();
                 }
             }
         });
+
+        // Show JFrame
+        frame.setVisible(true);
     }
-    
+
+    // Method to paint components on JPanel
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
-        
-    
+
+        // Draw background image
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
+
+        // Draw characters
         pw.draw(g2);
         me.draw(g2);
 

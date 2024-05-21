@@ -4,10 +4,7 @@
  */
 package dev.ea2.fightingGame.frontEnd;
 
-import javax.swing.*;
-
 import dev.ea2.fightingGame.characters.Game;
-import dev.ea2.fightingGame.frontEnd.mainMenu;
 
 /**
  *
@@ -140,19 +137,19 @@ public class characterSelect1 extends javax.swing.JFrame {
     public void officeProsecutorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officeProsecutorsActionPerformed
         characterSelect1.this.setVisible(false);
         String imageFile = "/images/maps/thumbnails/edgeyOffice.jpg";
-        Game.gago(imageFile);
+        Game.StartGameWithImage(imageFile);
     }//GEN-LAST:event_officeProsecutorsActionPerformed
 
     private void officesWrightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officesWrightActionPerformed
         characterSelect1.this.setVisible(false);
         String imageFile = "/images/maps/thumbnails/office.jpg";
-        Game.gago(imageFile);
+        Game.StartGameWithImage(imageFile);
     }//GEN-LAST:event_officesWrightActionPerformed
 
     private void theCourtroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theCourtroomActionPerformed
         characterSelect1.this.setVisible(false);
         String imageFile = "/images/maps/thumbnails/court.jpg";
-        Game.gago(imageFile);
+        Game.StartGameWithImage(imageFile);
     }//GEN-LAST:event_theCourtroomActionPerformed
 
     /**

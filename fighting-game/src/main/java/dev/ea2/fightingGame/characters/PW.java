@@ -1,75 +1,36 @@
 package dev.ea2.fightingGame.characters;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PW extends Character {
+public class PW extends CharacterBase {
 
     private String name;
     private String[] specialMoves;
     private KeyHandler keyHandler;
-    private boolean isJumping = false;
-    private boolean isCrouching = false;
-    private boolean isHit = false;
-    private int velocityY;
-    private final int maxJumpHeight = 50;
-    private final int jumpStrength = 25;
-    private final int gravity = 4;
-    private final int ground = 600;
-    private int specialTimer = 6;
-    private int frameCounter = 0;
 
-    public Rectangle hitbox = new Rectangle(0, 0, 0, 0);
-
-    public BufferedImage idle, forward, back, crouch, jump, low, high, attack, special;
-    public String action = "idle";
-
-    public PW(int health, int x, int y, int speed, int h, int w, KeyHandler keyHandler, String name,
-            String[] specialMoves) {
-        super(health, x, y, speed, h, w);
+    public PW(int health, int x, int y, int speed, int height, int width, KeyHandler keyHandler, String name,
+              String[] specialMoves) {
+        super(health, x, y, speed, height, width);
         this.name = name;
         this.specialMoves = specialMoves;
         this.keyHandler = keyHandler;
+        loadImages("PW");
     }
 
-    public void getImage() {
-        try {
 
-            idle = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_idle.png"));
-            forward = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_forward.png"));
-            back = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_back.png"));
-            crouch = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_crouch.png"));
-            jump = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_jump.png"));
-            low = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_low.png"));
-            high = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_high.png"));
-            attack = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_attack.png"));
-            special = ImageIO.read(getClass().getResourceAsStream("/characters/PW/PW_special.png"));
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void update() {
-        getImage();
         if (keyHandler.isKeyDown(KeyEvent.VK_W) && !isJumping) {
             action = "jump";
             isJumping = true;
@@ -77,11 +38,11 @@ public class PW extends Character {
         }
 
         if (isJumping) {
-            super.y += velocityY;
-            velocityY += gravity; 
+            y += velocityY;
+            velocityY += gravity;
 
-            if (velocityY > 0 && super.y >= ground) { 
-                super.y = ground; 
+            if (velocityY > 0 && y >= ground) {
+                y = ground;
                 action = "idle";
                 isJumping = false;
                 velocityY = 0;
@@ -96,21 +57,18 @@ public class PW extends Character {
             if (keyHandler.isPunchKeyPressed() && isCrouching) {
                 System.out.println(name + ": Desk Slam");
                 action = "low";
-            
-            }  else {
+            } else {
                 action = "crouch";
             }
         } else if (isJumping) {
             isCrouching = false;
-            if (keyHandler.isKeyDown(KeyEvent.VK_A) && super.x >= 0) {
-                super.x -= super.speed;
+            if (keyHandler.isKeyDown(KeyEvent.VK_A) && x >= 0) {
+                x -= speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
-
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_D) && super.x <= 1165) {
-                super.x += super.speed;
+            if (keyHandler.isKeyDown(KeyEvent.VK_D) && x <= 1165) {
+                x += speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
-
             }
             if (keyHandler.isPunchKeyPressed() && isJumping) {
                 System.out.println(name + ": AHHHHHH!");
@@ -121,19 +79,18 @@ public class PW extends Character {
         } else {
             isCrouching = false;
             action = "idle";
-            if (keyHandler.isKeyDown(KeyEvent.VK_A) && super.x >= 0) {
-                super.x -= super.speed;
+            if (keyHandler.isKeyDown(KeyEvent.VK_A) && x >= 0) {
+                x -= speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "back";
             }
-            if (keyHandler.isKeyDown(KeyEvent.VK_D) && super.x <= 1165) {
-                super.x += super.speed;
+            if (keyHandler.isKeyDown(KeyEvent.VK_D) && x <= 1165) {
+                x += speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
                 action = "forward";
             }
             if (keyHandler.isPunchKeyPressed()) {
                 System.out.println("Timer: " + specialTimer);
-
                 if (keyHandler.isKeyDown(KeyEvent.VK_A) && specialTimer == 6) {
                     System.out.println("Big ol Finger");
                     action = "special";
@@ -142,66 +99,22 @@ public class PW extends Character {
                     System.out.println("Read");
                     action = "attack";
                 }
-            } 
+            }
 
             frameCounter++;
-            
+
             if (frameCounter >= 4) {
                 if (specialTimer < 6) {
                     specialTimer++;
                     System.out.println("Timer: " + specialTimer);
                 }
-                frameCounter = 0; // Reset the frame counter
+                frameCounter = 0;
             }
         }
     }
-    
-    
-     @Override
+
+    @Override
     public void draw(Graphics2D g2) {
-
-        // g2.setColor(Color.BLACK);
-
-        // g2.fillRect(super.x, super.y, super.height, super.width);
-
-        BufferedImage image = null;
-
-        switch (action) {
-            case "idle":
-                image = idle;
-                break;
-            case "forward":
-                image = forward;
-                break;
-            case "back":
-                image = back;
-                break;
-            case "jump":
-                image = jump;
-                break;
-            case "crouch":
-                image = crouch;
-                break;
-            case "attack":
-                image = attack;
-                break;
-            case "high":
-                image = high;
-                break;
-            case "low":
-                image = low;
-                break;
-            case "special":
-                image = special;
-                break;
-        }
-
-        int imageWidth = image.getWidth() * 2;
-        int imageHeight = image.getHeight() * 2;
-        
-
-        int drawY = super.y + super.height - imageHeight;
-        g2.drawImage(image, super.x, drawY, imageWidth, imageHeight, null);
+        super.draw(g2);
     }
 }
-

@@ -9,8 +9,6 @@ import dev.ea2.fightingGame.characters.Game;
 import javax.swing.*;
 import java.awt.*;
 
-import static java.lang.System.exit;
-
 /**
  *
  * @author yeems214
@@ -63,7 +61,7 @@ public class pauseMenu extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pauseMenu.this.setVisible(false);
-                game.gago(imageFile); // Resume the game
+                game.StartGameWithImage(imageFile); // Resume the game
             }
         });
         getContentPane().add(jButton2);
