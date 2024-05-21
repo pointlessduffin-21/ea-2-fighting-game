@@ -9,7 +9,14 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -91,6 +98,17 @@ public class Game extends JPanel {
                 timer.stop();
                 setVisible(false);
                 gameOver.screen();
+                if (PWHealth <= 0) {
+                    sendPostRequest(pw.getName(), "Lost");
+                } else {
+                    sendPostRequest(pw.getName(), "Won");
+                }
+
+                if (MEHealth <= 0) {
+                    sendPostRequest(me.getName(), "Lost");
+                } else {
+                    sendPostRequest(me.getName(), "Won");
+                }
             }
         });
         timer.start();
@@ -109,6 +127,42 @@ public class Game extends JPanel {
         // Show JFrame
         frame.setVisible(true);
     }
+
+    private void sendPostRequest(String playerName, String result) {
+        try {
+            URL url = new URL("http://localhost:6969/api/add"); // Replace with your actual API endpoint
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+
+            // Get current date and time
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            String formattedDateTime = now.format(formatter);
+
+            String jsonInputString = String.format("{\"playerName\": \"%s\", \"result\": \"%s\", \"datePlayed\": \"%s\"}",
+                    playerName, result, formattedDateTime);
+
+            try(OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                System.out.println(response.toString()); // Log the response for debugging
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Method to paint components on JPanel
     public void paintComponent(Graphics g) {
