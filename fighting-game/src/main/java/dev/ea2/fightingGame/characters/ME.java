@@ -50,7 +50,7 @@ public class ME extends CharacterBase {
                 y = ground;
                 action = "idle";
                 isJumping = false;
-                junmpAttackTime = 6;
+                jumpAttackTime = 6;
                 velocityY = 0;
             }
             System.out.println("Miles position: (" + x + ", " + y + ")");
@@ -78,9 +78,9 @@ public class ME extends CharacterBase {
                 x += speed;
                 System.out.println("Miles position: (" + x + ", " + y + ")");
             }
-            if (keyHandler.isPunchKeyEPressed() && isJumping && junmpAttackTime >=3) {
+            if (keyHandler.isPunchKeyEPressed() && isJumping && jumpAttackTime >=3) {
                 System.out.println(name + ": AHHHHHH!");
-                junmpAttackTime--;
+                jumpAttackTime--;
                 action = "high";
             } else {
                 action = "jump";
@@ -103,12 +103,11 @@ public class ME extends CharacterBase {
                 if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
                     if (specialTimer == 6){
                         specialTimer = 0 ;
-                        }
-                        if (specialTimer <= 1) {
-                            System.out.println("Big ol Finger");
-                            action = "special";
-                            
-                            }
+                    }
+                    if (specialTimer <= 1) {
+                        System.out.println("Big ol Finger");
+                        action = "special";
+                    }
                 } else {
                     System.out.println("Read");
                     action = "attack";
@@ -158,6 +157,44 @@ public class ME extends CharacterBase {
         }
     }
 
+    // Method to check collision with opponent's hitboxes
+    public void checkCollision(CharacterBase opponent) {
+        Rectangle opponentHitbox = opponent.getHitbox();
+
+        // Check for collision with opponent's hitboxes
+        if (shortHitBox.intersects(opponentHitbox)) {
+            // Handle collision for short range attack
+            // Deduct health from opponent
+            opponent.setHealth(opponent.getHealth() - 1);
+            // Apply knockback to opponent
+            // Adjust opponent's position or velocity as needed
+        }
+
+        if (lowHitBox.intersects(opponentHitbox)) {
+            // Handle collision for low range attack
+            // Deduct health from opponent
+            opponent.setHealth(opponent.getHealth() - 1);
+            // Apply knockback to opponent
+            // Adjust opponent's position or velocity as needed
+        }
+
+        if (highHitBox.intersects(opponentHitbox)) {
+            // Handle collision for high range attack
+            // Deduct health from opponent
+            opponent.setHealth(opponent.getHealth() - 1);
+            // Apply knockback to opponent
+            // Adjust
+        }
+
+        if (specialHitBox.intersects(opponentHitbox)) {
+            // Handle collision for special attack
+            // Deduct health from opponent
+            opponent.setHealth(opponent.getHealth() - 1);
+            // Apply knockback to opponent
+            // Adjust opponent's position or velocity as needed
+        }
+    }
+
     @Override
     public void draw(Graphics2D g2, String name) {
         super.draw(g2, name);
@@ -172,4 +209,6 @@ public class ME extends CharacterBase {
         g2.setColor(Color.BLUE);
         g2.draw(specialHitBox);
     }
+
 }
+

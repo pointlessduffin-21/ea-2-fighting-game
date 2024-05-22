@@ -53,7 +53,7 @@ public class PW extends CharacterBase {
                 y = ground;
                 action = "idle";
                 isJumping = false;
-                junmpAttackTime = 6;
+                jumpAttackTime = 6;
                 velocityY = 0;
             }
             System.out.println("Phoenix position: (" + x + ", " + y + ")");
@@ -80,10 +80,10 @@ public class PW extends CharacterBase {
                 x += speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
             }
-            if (keyHandler.isPunchKeyPressed() && isJumping && junmpAttackTime >= 3) {
+            if (keyHandler.isPunchKeyPressed() && isJumping && jumpAttackTime >= 3) {
                 System.out.println(name + ": AHHHHHH!");
                 action = "high";
-                junmpAttackTime--;
+                jumpAttackTime--;
             } else {
                 action = "jump";
             }

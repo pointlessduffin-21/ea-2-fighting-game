@@ -84,10 +84,11 @@ public class Game extends JPanel {
         timer = new Timer(60, e -> {
             pw.update();
             me.update();
+            checkCollisions();
             repaint();
 
             // Check for game over conditions
-            if (PWHealth <= 0 || MEHealth <= 0) {
+            if (pw.getHealth() <= 0 || me.getHealth() <= 0) {
                 timer.stop();
                 setVisible(false);
                 gameOver.screen();
@@ -125,15 +126,37 @@ public class Game extends JPanel {
         me.draw(g2, me.getName());
 
         // Draw hearts for PW
-        for (int i = 0; i < PWHealth; i++) {
+        for (int i = 0; i < pw.getHealth(); i++) {
             g2.drawImage(pwHeart, i * pwHeart.getWidth(), 0, this);
         }
 
         // Draw hearts for ME
-        for (int i = 0; i < MEHealth; i++) {
+        for (int i = 0; i < me.getHealth(); i++) {
             g2.drawImage(mwHeart, this.getWidth() - (i + 1) * mwHeart.getWidth(), 0, this);
         }
 
         g2.dispose();
+    }
+
+    // Method to check collisions and handle health deduction and knockback
+    private void checkCollisions() {
+        if (pw.getHitbox().intersects(me.getShortHitBox())) {
+            pw.setHealth(pw.getHealth() - 1);
+            knockback(pw, me);
+        }
+        if (me.getHitbox().intersects(pw.getShortHitBox())) {
+            me.setHealth(me.getHealth() - 1);
+            knockback(me, pw);
+        }
+        // Check other hitboxes similarly
+    }
+
+    private void knockback(CharacterBase attacker, CharacterBase defender) {
+        int knockbackDistance = 500;
+        if (defender.getX() > attacker.getX()) {
+            defender.setX(defender.getX() + knockbackDistance);
+        } else {
+            defender.setX(defender.getX() - knockbackDistance);
+        }
     }
 }

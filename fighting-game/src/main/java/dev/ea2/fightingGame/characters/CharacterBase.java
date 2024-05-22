@@ -2,6 +2,7 @@ package dev.ea2.fightingGame.characters;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.imageio.ImageIO;
@@ -35,9 +36,11 @@ public abstract class CharacterBase {
     protected final int ground = 600;
     protected int specialTimer = 6;
     protected int frameCounter = 0;
-    protected int junmpAttackTime = 6;
+    protected int jumpAttackTime = 6;
     protected int crouchAttackTime = 6;
 
+    // Getter for the hitbox
+    @Getter
     protected Rectangle hitbox = new Rectangle(0, 0, 0, 0);
 
     protected BufferedImage idle, forward, back, crouch, jump, low, high, attack, special;
@@ -114,14 +117,14 @@ public abstract class CharacterBase {
             int drawY = this.y + this.height - imageHeight;
             int boxY = this.y + this.height - imageHeight;
             int drawX;
-            if (name == "Miles Edgeworth") {
+            if (name.equals("Miles Edgeworth")) {
                 drawX = this.x + this.width - imageWidth;
                 boxX = this.x - 120;
             } else {
                 drawX = this.x;
                 boxX = this.x;
             }
-            
+
             switch (action) {
                 case "idle":
                     boxWidth = 260;
@@ -141,8 +144,6 @@ public abstract class CharacterBase {
                     boxWidth = 260;
                     boxHeight = 260;
                     break;
-
-
             }
 
             // Set the hitbox dimensions to match the character sprite
@@ -156,5 +157,5 @@ public abstract class CharacterBase {
             g2.drawImage(image, drawX, drawY, imageWidth, imageHeight, null);
         }
     }
-
 }
+
