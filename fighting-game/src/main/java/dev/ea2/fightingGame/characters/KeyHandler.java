@@ -5,36 +5,10 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    private boolean[] keys;
+    private final boolean[] keys;
 
     public KeyHandler() {
         keys = new boolean[256];
-    }
-
-
-
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        if (keyCode >= 0 && keyCode < keys.length) {
-            keys[keyCode] = true;
-        }
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        if (keyCode >= 0 && keyCode < keys.length) {
-            keys[keyCode] = false;
-        }
-   
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // Not used
     }
 
     public boolean isKeyDown(int keyCode) {
@@ -51,5 +25,25 @@ public class KeyHandler implements KeyListener {
     public boolean isPunchKeyEPressed() {
         return isKeyDown(KeyEvent.VK_ENTER); //  ATTACK FOR PLAYER 2
     }
-    
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Set the key to true if it is pressed
+        if (e.getKeyCode() >= 0 && e.getKeyCode() < keys.length) {
+            keys[e.getKeyCode()] = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // Set the key to false if it is released
+        if (e.getKeyCode() >= 0 && e.getKeyCode() < keys.length) {
+            keys[e.getKeyCode()] = false;
+        }
+
+    }
 }
