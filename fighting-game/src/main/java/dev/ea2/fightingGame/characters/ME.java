@@ -34,6 +34,7 @@ public class ME extends CharacterBase {
         loadImages("ME");
     }
 
+    // Update the character's position and actions
     @Override
     public void update() {
         if (keyHandler.isKeyDown(KeyEvent.VK_UP) && !isJumping) {
@@ -157,43 +158,7 @@ public class ME extends CharacterBase {
         }
     }
 
-    // Method to check collision with opponent's hitboxes
-    public void checkCollision(CharacterBase opponent) {
-        Rectangle opponentHitbox = opponent.getHitbox();
 
-        // Check for collision with opponent's hitboxes
-        if (shortHitBox.intersects(opponentHitbox)) {
-            // Handle collision for short range attack
-            // Deduct health from opponent
-            opponent.setHealth(opponent.getHealth() - 1);
-            // Apply knockback to opponent
-            // Adjust opponent's position or velocity as needed
-        }
-
-        if (lowHitBox.intersects(opponentHitbox)) {
-            // Handle collision for low range attack
-            // Deduct health from opponent
-            opponent.setHealth(opponent.getHealth() - 1);
-            // Apply knockback to opponent
-            // Adjust opponent's position or velocity as needed
-        }
-
-        if (highHitBox.intersects(opponentHitbox)) {
-            // Handle collision for high range attack
-            // Deduct health from opponent
-            opponent.setHealth(opponent.getHealth() - 1);
-            // Apply knockback to opponent
-            // Adjust
-        }
-
-        if (specialHitBox.intersects(opponentHitbox)) {
-            // Handle collision for special attack
-            // Deduct health from opponent
-            opponent.setHealth(opponent.getHealth() - 1);
-            // Apply knockback to opponent
-            // Adjust opponent's position or velocity as needed
-        }
-    }
 
     @Override
     public void draw(Graphics2D g2, String name) {

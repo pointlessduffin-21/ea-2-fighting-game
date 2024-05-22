@@ -41,9 +41,9 @@ public abstract class CharacterBase {
 
     // Getter for the hitbox
     @Getter
-    protected Rectangle hitbox = new Rectangle(0, 0, 0, 0);
+    protected final Rectangle hitbox = new Rectangle();
 
-    protected BufferedImage idle, forward, back, crouch, jump, low, high, attack, special;
+    protected BufferedImage idle, forward, back, crouch, jump, low, high, attack, special, hit;
     protected String action = "idle";
 
     public CharacterBase(int health, int x, int y, int speed, int height, int width) {
@@ -57,6 +57,7 @@ public abstract class CharacterBase {
 
     protected void loadImages(String characterName) {
         try {
+            hit = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/characters/" + characterName + "/" + characterName + "_hit.png")));
             idle = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/characters/" + characterName + "/" + characterName + "_idle.png")));
             forward = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/characters/" + characterName + "/" + characterName + "_forward.png")));
             back = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/characters/" + characterName + "/" + characterName + "_back.png")));
@@ -127,22 +128,13 @@ public abstract class CharacterBase {
 
             switch (action) {
                 case "idle":
-                    boxWidth = 260;
+                case "jump":
                     boxHeight = 260;
                     break;
                 case "crouch":
-                    boxWidth = 260;
-                    boxHeight = 160;
-                    boxY = this.y;
-                    break;
                 case "low":
-                    boxWidth = 260;
                     boxHeight = 160;
                     boxY = this.y;
-                    break;
-                case "jump":
-                    boxWidth = 260;
-                    boxHeight = 260;
                     break;
             }
 
