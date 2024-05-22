@@ -50,6 +50,7 @@ public class ME extends CharacterBase {
                 y = ground;
                 action = "idle";
                 isJumping = false;
+                junmpAttackTime = 6;
                 velocityY = 0;
             }
             System.out.println("Miles position: (" + x + ", " + y + ")");
@@ -60,9 +61,10 @@ public class ME extends CharacterBase {
             isCrouching = true;
             action = "crouch";
 
-            if (keyHandler.isPunchKeyEPressed() && isCrouching) {
+            if (keyHandler.isPunchKeyEPressed() && isCrouching && crouchAttackTime >=2) {
                 System.out.println(name + ": Desk Slam");
                 action = "low";
+                crouchAttackTime--;
             } else {
                 action = "crouch";
             }
@@ -76,14 +78,16 @@ public class ME extends CharacterBase {
                 x += speed;
                 System.out.println("Miles position: (" + x + ", " + y + ")");
             }
-            if (keyHandler.isPunchKeyEPressed() && isJumping) {
+            if (keyHandler.isPunchKeyEPressed() && isJumping && junmpAttackTime >=3) {
                 System.out.println(name + ": AHHHHHH!");
+                junmpAttackTime--;
                 action = "high";
             } else {
                 action = "jump";
             }
         } else {
             isCrouching = false;
+            crouchAttackTime = 6;
             action = "idle";
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && x >= 0) {
                 x -= speed;
@@ -96,10 +100,15 @@ public class ME extends CharacterBase {
                 action = "forward";
             }
             if (keyHandler.isPunchKeyEPressed()) {
-                if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT) && specialTimer == 6) {
-                    System.out.println("Big ol Finger");
-                    action = "special";
-                    specialTimer -= 3;
+                if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
+                    if (specialTimer == 6){
+                        specialTimer = 0 ;
+                        }
+                        if (specialTimer <= 1) {
+                            System.out.println("Big ol Finger");
+                            action = "special";
+                            
+                            }
                 } else {
                     System.out.println("Read");
                     action = "attack";
@@ -128,16 +137,16 @@ public class ME extends CharacterBase {
         // Update hit box positions based on character actions
         switch (getAction()) {
             case "attack":
-                shortHitBox.setBounds(drawX - 20, drawY - 20, imageWidth - 40, imageHeight - 40);
+                shortHitBox.setBounds(drawX - 95, drawY - 20, imageWidth - 40, imageHeight - 40);
                 break;
             case "low":
-                lowHitBox.setBounds(drawX - 20, drawY + 70, imageWidth - 40, imageHeight - 70);
+                lowHitBox.setBounds(drawX - 170, drawY + 70, imageWidth + 40, imageHeight - 70);
                 break;
             case "high":
-                highHitBox.setBounds(drawX - 50, drawY - 50, imageWidth + 100, imageHeight + 100);
+                highHitBox.setBounds(drawX - 130, drawY - 50, imageWidth + 100, imageHeight + 100);
                 break;
             case "special":
-                specialHitBox.setBounds(drawX - 50, drawY - 50, imageWidth + 100, imageHeight + 100);
+                specialHitBox.setBounds(drawX - 280, drawY - 50, imageWidth + 100, imageHeight - 60);
                 break;
             default:
                 // Reset hit boxes if not in an attack action
@@ -150,8 +159,8 @@ public class ME extends CharacterBase {
     }
 
     @Override
-    public void draw(Graphics2D g2) {
-        super.draw(g2);
+    public void draw(Graphics2D g2, String name) {
+        super.draw(g2, name);
 
         // Draw hit boxes for debugging purposes
         g2.setColor(Color.YELLOW);

@@ -10,8 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
-import java.awt.Rectangle;
-import java.awt.Color;
 
 @Data
 @AllArgsConstructor
@@ -32,11 +30,13 @@ public abstract class CharacterBase {
     protected boolean isHit = false;
     protected int velocityY;
     protected final int maxJumpHeight = 50;
-    protected final int jumpStrength = 25;
+    protected final int jumpStrength = 40;
     protected final int gravity = 4;
     protected final int ground = 600;
     protected int specialTimer = 6;
     protected int frameCounter = 0;
+    protected int junmpAttackTime = 6;
+    protected int crouchAttackTime = 6;
 
     protected Rectangle hitbox = new Rectangle(0, 0, 0, 0);
 
@@ -70,7 +70,7 @@ public abstract class CharacterBase {
 
     public abstract void update();
 
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2, String name) {
         BufferedImage image = null;
 
         // Draw the character sprite
@@ -108,11 +108,45 @@ public abstract class CharacterBase {
             // Calculate the position to draw the character sprite
             int imageWidth = image.getWidth() * 2;
             int imageHeight = image.getHeight() * 2;
+            int boxWidth = 260;
+            int boxHeight = 240;
+            int boxX;
             int drawY = this.y + this.height - imageHeight;
-            int drawX = this.x + this.width - imageWidth;
+            int boxY = this.y + this.height - imageHeight;
+            int drawX;
+            if (name == "Miles Edgeworth") {
+                drawX = this.x + this.width - imageWidth;
+                boxX = this.x - 120;
+            } else {
+                drawX = this.x;
+                boxX = this.x;
+            }
+            
+            switch (action) {
+                case "idle":
+                    boxWidth = 260;
+                    boxHeight = 260;
+                    break;
+                case "crouch":
+                    boxWidth = 260;
+                    boxHeight = 160;
+                    boxY = this.y;
+                    break;
+                case "low":
+                    boxWidth = 260;
+                    boxHeight = 160;
+                    boxY = this.y;
+                    break;
+                case "jump":
+                    boxWidth = 260;
+                    boxHeight = 260;
+                    break;
+
+
+            }
 
             // Set the hitbox dimensions to match the character sprite
-            hitbox.setBounds(drawX, drawY, imageWidth, imageHeight);
+            hitbox.setBounds(boxX, boxY, boxWidth, boxHeight);
 
             // Draw the hitbox
             g2.setColor(Color.WHITE); // Set the color for the hitbox outline

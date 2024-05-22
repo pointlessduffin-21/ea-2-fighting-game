@@ -39,7 +39,7 @@ public class Game extends JPanel {
         this.imageFile = imageFile;
 
         // Initialize characters
-        pw = new PW(PWHealth, 210, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
+        pw = new PW(PWHealth, 50, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
         me = new ME(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
     }
 
@@ -121,8 +121,8 @@ public class Game extends JPanel {
         }
 
         // Draw characters
-        pw.draw(g2);
-        me.draw(g2);
+        pw.draw(g2, pw.getName());
+        me.draw(g2, me.getName());
 
         // Draw hearts for PW
         for (int i = 0; i < PWHealth; i++) {
