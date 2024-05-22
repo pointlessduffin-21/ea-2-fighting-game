@@ -8,15 +8,19 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * Represents the character "MilesEdgeworth" in the fighting game.
+ * Extends the CharacterBase class.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ME extends CharacterBase {
+public class Miles extends CharacterBase {
 
-    private String name;
-    private String[] specialMoves;
-    private KeyHandler keyHandler;
+    private String name; // Name of the character
+    private String[] specialMoves; // Special moves of the character
+    private KeyHandler keyHandler; // Key handler to handle keyboard input
 
     // Hit boxes for different attacks
     private Rectangle shortHitBox = new Rectangle(400, 600, 70, 80); // Middle short range attack
@@ -24,25 +28,27 @@ public class ME extends CharacterBase {
     private Rectangle highHitBox = new Rectangle(150, 350, 100, 100); // Big AOE hitbox, in the middle part of the range
     private Rectangle specialHitBox = new Rectangle(100, 100, 200, 200); // Longer range for special attack
 
-
-    public ME(int health, int x, int y, int speed, int height, int width, KeyHandler keyHandler, String name,
-              String[] specialMoves) {
+    // Constructor
+    public Miles(int health, int x, int y, int speed, int height, int width, KeyHandler keyHandler, String name,
+                 String[] specialMoves) {
         super(health, x, y, speed, height, width);
         this.name = name;
         this.specialMoves = specialMoves;
         this.keyHandler = keyHandler;
-        loadImages("ME");
+        loadImages("ME"); // Load images for the character
     }
 
-    // Update the character's position and actions
+    // Update method to handle character's actions and position
     @Override
     public void update() {
+        // Handle jumping
         if (keyHandler.isKeyDown(KeyEvent.VK_UP) && !isJumping) {
             action = "jump";
             isJumping = true;
             velocityY = -jumpStrength;
         }
 
+        // Handle continuous jumping
         if (isJumping) {
             y += velocityY;
             velocityY += gravity;
@@ -57,6 +63,7 @@ public class ME extends CharacterBase {
             System.out.println("Miles position: (" + x + ", " + y + ")");
         }
 
+        // Handle crouching and crouch attack
         if (keyHandler.isKeyDown(KeyEvent.VK_DOWN) && !isJumping) {
             System.out.println("Crouching");
             isCrouching = true;
@@ -70,6 +77,7 @@ public class ME extends CharacterBase {
                 action = "crouch";
             }
         } else if (isJumping) {
+            // Handle jumping and movement
             isCrouching = false;
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && x >= 0) {
                 x -= speed;
@@ -87,13 +95,14 @@ public class ME extends CharacterBase {
                 action = "jump";
             }
         } else {
+            // Handle idle, walking, and attacking
             isCrouching = false;
             crouchAttackTime = 6;
             if (action != "hit") {
                 action = "idle";
                 System.out.print("idle");
             } else {
-                
+                // Handle hit action
             }
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && x >= 0) {
                 x -= speed;
@@ -106,6 +115,7 @@ public class ME extends CharacterBase {
                 action = "forward";
             }
             if (keyHandler.isPunchKeyEPressed()) {
+                // Handle special and regular attack
                 if (keyHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
                     if (specialTimer == 6){
                         specialTimer = 0 ;
@@ -120,8 +130,8 @@ public class ME extends CharacterBase {
                 }
             }
 
+            // Increment frame counter and special timer
             frameCounter++;
-
             if (frameCounter >= 4) {
                 if (specialTimer < 6) {
                     specialTimer++;
@@ -130,9 +140,10 @@ public class ME extends CharacterBase {
                 frameCounter = 0;
             }
         }
-        updateHitBoxes();
+        updateHitBoxes(); // Update hit boxes based on character's action
     }
 
+    // Update hit boxes positions
     private void updateHitBoxes() {
         int imageWidth = getWidth() * 2;
         int imageHeight = getHeight() * 2;
@@ -163,8 +174,7 @@ public class ME extends CharacterBase {
         }
     }
 
-
-
+    // Draw method to draw the character and hit boxes
     @Override
     public void draw(Graphics2D g2, String name) {
         super.draw(g2, name);
@@ -179,6 +189,5 @@ public class ME extends CharacterBase {
         g2.setColor(Color.BLUE);
         g2.draw(specialHitBox);
     }
-
 }
 

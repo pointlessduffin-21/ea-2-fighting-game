@@ -1,6 +1,6 @@
 package dev.ea2.fightingGame.characters;
 
-import dev.ea2.fightingGame.frontEnd.gameOver;
+import dev.ea2.fightingGame.frontEnd.GameOver;
 import dev.ea2.fightingGame.frontEnd.pauseMenu;
 
 import javax.imageio.ImageIO;
@@ -15,130 +15,155 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The Game class handles the main game logic, rendering, and state management for the fighting game.
+ * It extends JPanel and includes methods for starting the game, pausing, resuming, quitting, and handling collisions.
+ */
 public class Game extends JPanel {
 
     private static final Logger logger = Logger.getLogger(Game.class.getName());
 
-    private int PWHealth;
-    private int MEHealth;
-
+    private final int PWHealth;
+    private final int MEHealth;
     private final String imageFile;
 
     private final KeyHandler keyHandler = new KeyHandler();
-    private final PW pw;
-    private final ME me;
+    private final Phoenix phoenix;
+    private final Miles me;
 
     private BufferedImage backgroundImage;
     private BufferedImage pwHeart;
     private BufferedImage mwHeart;
 
     private Timer timer;
+    private JFrame frame;
 
-    // Constructor
+    /**
+     * Constructor to initialize the Game with character health and background image file.
+     *
+     * @param PWHealth Initial health for Phoenix Wright.
+     * @param MEHealth Initial health for Miles Edgeworth.
+     * @param imageFile Path to the background image file.
+     */
     public Game(int PWHealth, int MEHealth, String imageFile) {
         this.PWHealth = PWHealth;
         this.MEHealth = MEHealth;
         this.imageFile = imageFile;
 
-        // Initialize characters
-        pw = new PW(PWHealth, 50, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
-        me = new ME(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
+        // Initialize characters with health, position, speed, size, and actions
+        phoenix = new Phoenix(PWHealth, 50, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
+        me = new Miles(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
     }
 
-    // Method to start the game
+    /**
+     * Static method to start the game with a specified background image file.
+     *
+     * @param imageFile Path to the background image file.
+     */
     public static void StartGameWithImage(String imageFile) {
         Game game = new Game(5, 5, imageFile);
-        game.start(imageFile);
+        game.start();
     }
 
-    // Method to pause the game
+    /**
+     * Pauses the game, stops the timer, and shows the pause menu.
+     */
     public void pause() {
         timer.stop();
         setVisible(false);
         pauseMenu.pauseActual(this, imageFile, PWHealth, MEHealth);
     }
 
-    // Method to initialize and start the game
-    private void start(String imageFile) {
-        // Create JFrame
-        JFrame frame = new JFrame("Game");
+    /**
+     * Resumes the game, starts the timer, and makes the game visible.
+     */
+    public void resume() {
+        timer.start();
+        setVisible(true);
+    }
+
+    /**
+     * Quits the game by disposing of the frame.
+     */
+    public void quit() {
+        if (frame != null) {
+            frame.dispose();
+        }
+    }
+
+    /**
+     * Starts the game by setting up the JFrame, loading images, and starting the game loop timer.
+     */
+    private void start() {
+        frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
         frame.setLayout(new BorderLayout());
 
-        // Add key listener to JPanel
         JPanel panel = new JPanel();
         panel.setFocusable(true);
         panel.addKeyListener(keyHandler);
         frame.add(panel, BorderLayout.CENTER);
         frame.add(this);
 
-        // Load images
-        try {
-            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imageFile)));
-            pwHeart = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/pwHeart.png")));
-            mwHeart = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/mwHeart.png")));
-        } catch (IOException e) {
-            logger.severe("Error loading images for " + imageFile);
-        }
+        loadImages();
 
-        // Set timer to update game state periodically
+        // Timer for game loop, updates game state every 60 ms
         timer = new Timer(60, e -> {
-            pw.update();
+            phoenix.update();
             me.update();
             checkCollisions();
             repaint();
-
-            // Check for game over conditions
-            if (pw.getHealth() <= 0 || me.getHealth() <= 0) {
-                timer.stop();
-                setVisible(false);
-                gameOver.screen();
-                if (PWHealth <= 0) {
-                    sendPostRequest(pw.getName(), "Lost");
-                } else {
-                    sendPostRequest(pw.getName(), "Won");
-                }
-
-                if (MEHealth <= 0) {
-                    sendPostRequest(me.getName(), "Lost");
-                } else {
-                    sendPostRequest(me.getName(), "Won");
-                }
-            }
+            checkGameOver();
         });
         timer.start();
 
-        // Add key listener to pause the game
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    setVisible(false);
                     pause();
                 }
             }
         });
 
-        // Show JFrame
         frame.setVisible(true);
     }
 
+    /**
+     * Loads images for the background and health indicators.
+     */
+    private void loadImages() {
+        try {
+            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imageFile)));
+            pwHeart = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/pwHeart.png")));
+            mwHeart = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/mwHeart.png")));
+        } catch (IOException e) {
+            logger.severe("Error loading images for " + imageFile + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Sends a POST request to the server with the game result.
+     *
+     * @param playerName Name of the player.
+     * @param result Result of the game ("Won" or "Lost").
+     */
     private void sendPostRequest(String playerName, String result) {
         try {
-            URL url = new URL("http://localhost:6969/api/add"); // Replace with your actual API endpoint
+            URL url = new URL("http://localhost:6969/api/add");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
-            // Get current date and time
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             String formattedDateTime = now.format(formatter);
@@ -146,119 +171,161 @@ public class Game extends JPanel {
             String jsonInputString = String.format("{\"playerName\": \"%s\", \"result\": \"%s\", \"datePlayed\": \"%s\"}",
                     playerName, result, formattedDateTime);
 
-            try(OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
 
-            try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
                 StringBuilder response = new StringBuilder();
-                String responseLine = null;
+                String responseLine;
                 while ((responseLine = br.readLine()) != null) {
                     response.append(responseLine.trim());
                 }
-                System.out.println(response.toString()); // Log the response for debugging
+                logger.info("Response from server: " + response);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.severe("Error sending POST request: " + e.getMessage());
         }
     }
 
-
-    // Method to paint components on JPanel
-    public void paintComponent(Graphics g) {
+    /**
+     * Paints the game components including the background, characters, and health indicators.
+     *
+     * @param g Graphics object used for painting.
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // Draw background image
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
 
-        // Draw characters
-        pw.draw(g2, pw.getName());
+        phoenix.draw(g2, phoenix.getName());
         me.draw(g2, me.getName());
 
-        // Draw hearts for PW
-        for (int i = 0; i < pw.getHealth(); i++) {
-            g2.drawImage(pwHeart, i * pwHeart.getWidth(), 0, this);
-        }
-
-        // Draw hearts for ME
-        for (int i = 0; i < me.getHealth(); i++) {
-            g2.drawImage(mwHeart, this.getWidth() - (i + 1) * mwHeart.getWidth(), 0, this);
-        }
+        drawHealth(g2);
 
         g2.dispose();
     }
 
-    // Method to check collisions and handle health deduction and knockback
-    private void checkCollisions() {
-
-        // Check for collisions between characters
-
-        // shortAttack
-        if (pw.getHitbox().intersects(me.getShortHitBox())) {
-            pw.setHealth(pw.getHealth() - 1);
-            knockBack(pw, me);
-            pw.setAction("hit");
-
+    /**
+     * Draws the health indicators for both characters.
+     *
+     * @param g2 Graphics2D object used for painting.
+     */
+    private void drawHealth(Graphics2D g2) {
+        for (int i = 0; i < phoenix.getHealth(); i++) {
+            g2.drawImage(pwHeart, i * pwHeart.getWidth(), 0, this);
         }
-        if (me.getHitbox().intersects(pw.getShortHitBox())) {
-            me.setHealth(me.getHealth() - 1);
-            knockBack(me, pw);
-            me.setAction("hit");
-
+        for (int i = 0; i < me.getHealth(); i++) {
+            g2.drawImage(mwHeart, this.getWidth() - (i + 1) * mwHeart.getWidth(), 0, this);
         }
-
-        // lowAttack
-        if (pw.getHitbox().intersects(me.getLowHitBox())) {
-            pw.setHealth(pw.getHealth() - 1);
-            knockBack(pw, me);
-            pw.setAction("hit");
-        }
-
-        if (me.getHitbox().intersects(pw.getLowHitBox())) {
-            me.setHealth(me.getHealth() - 1);
-            knockBack(me, pw);
-            me.setAction("hit");
-        }
-
-        // highAttack
-
-        if (pw.getHitbox().intersects(me.getHighHitBox())) {
-            pw.setHealth(pw.getHealth() - 1);
-            knockBack(pw, me);
-            pw.setAction("hit");
-        }
-        if (me.getHitbox().intersects(pw.getHighHitBox())) {
-            me.setHealth(me.getHealth() - 1);
-            knockBack(me, pw);
-            me.setAction("hit");
-        }
-
-        // specialAttack
-        if (pw.getHitbox().intersects(me.getSpecialHitBox())) {
-            pw.setHealth(pw.getHealth() - 1);
-            knockBack(pw, me);
-            pw.setAction("hit");
-        }
-        if (me.getHitbox().intersects(pw.getSpecialHitBox())) {
-            me.setHealth(me.getHealth() - 1);
-            knockBack(me, pw);
-            me.setAction("hit");
-        }
-
     }
 
+    /**
+     * Checks for collisions between characters and handles the resulting interactions.
+     */
+    private void checkCollisions() {
+        handleCollision(phoenix, me, me.getShortHitBox());
+        handleCollision(me, phoenix, phoenix.getShortHitBox());
+
+        handleCollision(phoenix, me, me.getLowHitBox());
+        handleCollision(me, phoenix, phoenix.getLowHitBox());
+
+        handleCollision(phoenix, me, me.getHighHitBox());
+        handleCollision(me, phoenix, phoenix.getHighHitBox());
+
+        handleCollision(phoenix, me, me.getSpecialHitBox());
+        handleCollision(me, phoenix, phoenix.getSpecialHitBox());
+
+        if (phoenix.getShortHitBox().intersects(me.getShortHitBox()) && me.getShortHitBox().intersects(phoenix.getShortHitBox())) {
+            knockBack(phoenix, me);
+        }
+
+        if (phoenix.getLowHitBox().intersects(me.getLowHitBox()) && me.getLowHitBox().intersects(phoenix.getLowHitBox())) {
+            knockBack(phoenix, me);
+        }
+
+        if (phoenix.getHighHitBox().intersects(me.getHighHitBox()) && me.getHighHitBox().intersects(phoenix.getHighHitBox())) {
+            knockBack(phoenix, me);
+        }
+
+        if (phoenix.getSpecialHitBox().intersects(me.getSpecialHitBox()) && me.getSpecialHitBox().intersects(phoenix.getSpecialHitBox())) {
+            knockBack(phoenix, me);
+        }
+
+        if (me.getShortHitBox().intersects(phoenix.getShortHitBox()) && phoenix.getShortHitBox().intersects(me.getShortHitBox())) {
+            knockBack(me, phoenix);
+        }
+
+        if (me.getLowHitBox().intersects(phoenix.getLowHitBox()) && phoenix.getLowHitBox().intersects(me.getLowHitBox())) {
+            knockBack(me, phoenix);
+        }
+
+        if (me.getHighHitBox().intersects(phoenix.getHighHitBox()) && phoenix.getHighHitBox().intersects(me.getHighHitBox())) {
+            knockBack(me, phoenix);
+        }
+
+        if (me.getSpecialHitBox().intersects(phoenix.getSpecialHitBox()) && phoenix.getSpecialHitBox().intersects(me.getSpecialHitBox())) {
+            knockBack(me, phoenix);
+        }
+    }
+
+    /**
+     * Handles collision between an attacker and a defender within a specified hit box.
+     *
+     * @param attacker The character initiating the attack.
+     * @param defender The character receiving the attack.
+     * @param hitBox The hit box where the collision is checked.
+     */
+    private void handleCollision(CharacterBase attacker, CharacterBase defender, Rectangle hitBox) {
+        if (attacker.getHitbox().intersects(hitBox)) {
+            attacker.setHealth(attacker.getHealth() - 1);
+            knockBack(attacker, defender);
+            attacker.setAction("hit");
+
+        }
+    }
+
+    /**
+     * Applies knockback effect to the attacker based on the defender's position.
+     *
+     * @param attacker The character receiving the knockback.
+     * @param defender The character causing the knockback.
+     */
     private void knockBack(CharacterBase attacker, CharacterBase defender) {
         int knockBackDistance = 200;
-        // the defender is knocked back by the attacker when they are hit by an attack
 
-        if ( attacker.getX() < defender.getX() ) {
+        if (attacker.getX() < defender.getX()) {
             attacker.setX(attacker.getX() - knockBackDistance);
         } else {
             attacker.setX(attacker.getX() + knockBackDistance);
+        }
+    }
+
+    /**
+     * Checks if the game is over and handles the end game logic, including sending results to the server.
+     */
+    private void checkGameOver() {
+        if (phoenix.getHealth() <= 0 || me.getHealth() <= 0) {
+            timer.stop();
+            setVisible(false);
+            GameOver.screen();
+
+            if (phoenix.getHealth() <= 0) {
+                sendPostRequest(phoenix.getName(), "Lost");
+            } else {
+                sendPostRequest(phoenix.getName(), "Won");
+            }
+
+            if (me.getHealth() <= 0) {
+                sendPostRequest(me.getName(), "Lost");
+            } else {
+                sendPostRequest(me.getName(), "Won");
+            }
         }
     }
 }

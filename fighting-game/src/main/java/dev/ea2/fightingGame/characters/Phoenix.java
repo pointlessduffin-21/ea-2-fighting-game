@@ -8,11 +8,15 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * Phoenix class represents a character named Phoenix in the fighting game.
+ * This class extends the CharacterBase class and implements the behavior specific to Phoenix.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PW extends CharacterBase {
+public class Phoenix extends CharacterBase {
 
     private String name;
     private String[] specialMoves;
@@ -24,17 +28,27 @@ public class PW extends CharacterBase {
     private Rectangle highHitBox = new Rectangle(150, 350, 100, 100); // Big AOE hitbox, in the middle part of the range
     private Rectangle specialHitBox = new Rectangle(100, 100, 200, 200); // Longer range for special attack
 
-
-
-    public PW(int health, int x, int y, int speed, int height, int width, KeyHandler keyHandler, String name,
-              String[] specialMoves) {
+    /**
+     * Constructor to initialize Phoenix with specified attributes.
+     *
+     * @param health        The health points of Phoenix.
+     * @param x             The initial x-coordinate position of Phoenix.
+     * @param y             The initial y-coordinate position of Phoenix.
+     * @param speed         The movement speed of Phoenix.
+     * @param height        The height of Phoenix.
+     * @param width         The width of Phoenix.
+     * @param keyHandler    The key handler for handling keyboard inputs.
+     * @param name          The name of Phoenix.
+     * @param specialMoves  The array of special moves that Phoenix can perform.
+     */
+    public Phoenix(int health, int x, int y, int speed, int height, int width, KeyHandler keyHandler, String name,
+                   String[] specialMoves) {
         super(health, x, y, speed, height, width);
         this.name = name;
         this.specialMoves = specialMoves;
         this.keyHandler = keyHandler;
         loadImages("PW");
     }
-
 
 
     @Override
@@ -93,7 +107,7 @@ public class PW extends CharacterBase {
             if (action != "hit") {
                 action = "idle";
                 System.out.print("idle");
-            } 
+            }
             if (keyHandler.isKeyDown(KeyEvent.VK_A) && x >= 0) {
                 x -= speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
@@ -111,9 +125,9 @@ public class PW extends CharacterBase {
                     specialTimer = 0 ;
                     }
                     if (specialTimer <= 1) {
-                    System.out.println("Big ol Finger");
+                    System.out.println("Big ol Finger lickin' good");
                     action = "special";
-                    
+
                     }
                 } else {
                     System.out.println("Read");
@@ -154,8 +168,6 @@ public class PW extends CharacterBase {
             case "special":
                 specialHitBox.setBounds(drawX + 320, drawY - 50, imageWidth + 100, imageHeight - 60);
                 break;
-
-
             default:
                 // Reset hit boxes if not in an attack action
                 shortHitBox.setBounds(0, 0, 0, 0);
@@ -166,6 +178,12 @@ public class PW extends CharacterBase {
         }
     }
 
+    /**
+     * Draw method to render Phoenix on the screen along with its hit boxes.
+     *
+     * @param g2   The Graphics2D object used for rendering.
+     * @param name The name of Phoenix.
+     */
     @Override
     public void draw(Graphics2D g2, String name) {
         super.draw(g2, name);

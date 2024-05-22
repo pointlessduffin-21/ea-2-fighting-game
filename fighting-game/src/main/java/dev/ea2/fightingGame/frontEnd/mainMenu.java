@@ -29,16 +29,16 @@ public class mainMenu extends JFrame {
 
 
 
-// Load the logo image from a file
+    // Load the logo image from a file
         ImageIcon logoIcon = new ImageIcon("src/main/resources/images/logo.png");
 
-// Create a JLabel to display the logo
+     // Create a JLabel to display the logo
         JLabel logoLabel = new JLabel(logoIcon);
         logoLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the logo horizontally
 
-// Add padding and adjust the logo position
+    // Add padding and adjust the logo position
         logoLabel.setBorder(BorderFactory.createEmptyBorder(150, 0, 50, 0)); // Adjusted padding to move the logo down
-// Add the logo JLabel to the container
+  // Add the logo JLabel to the container
         add(logoLabel);
 
 
