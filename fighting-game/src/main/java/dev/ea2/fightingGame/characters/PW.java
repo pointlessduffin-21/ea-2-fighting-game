@@ -90,7 +90,10 @@ public class PW extends CharacterBase {
         } else {
             isCrouching = false;
             crouchAttackTime = 6;
-            action = "idle";
+            if (action != "hit") {
+                action = "idle";
+                System.out.print("idle");
+            } 
             if (keyHandler.isKeyDown(KeyEvent.VK_A) && x >= 0) {
                 x -= speed;
                 System.out.println("Phoenix position: (" + x + ", " + y + ")");
@@ -117,6 +120,7 @@ public class PW extends CharacterBase {
                     action = "attack";
                 }
             }
+        }
 
             frameCounter++;
 
@@ -127,8 +131,7 @@ public class PW extends CharacterBase {
                 }
                 frameCounter = 0;
             }
-        }
-updateHitBoxes();
+        updateHitBoxes();
     }
 
     private void updateHitBoxes() {

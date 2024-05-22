@@ -201,13 +201,13 @@ public class Game extends JPanel {
         if (pw.getHitbox().intersects(me.getShortHitBox())) {
             pw.setHealth(pw.getHealth() - 1);
             knockBack(pw, me);
-            me.setAction("hit");
+            pw.setAction("hit");
 
         }
         if (me.getHitbox().intersects(pw.getShortHitBox())) {
             me.setHealth(me.getHealth() - 1);
             knockBack(me, pw);
-            pw.setAction("hit");
+            me.setAction("hit");
 
         }
 
@@ -215,11 +215,13 @@ public class Game extends JPanel {
         if (pw.getHitbox().intersects(me.getLowHitBox())) {
             pw.setHealth(pw.getHealth() - 1);
             knockBack(pw, me);
+            pw.setAction("hit");
         }
 
         if (me.getHitbox().intersects(pw.getLowHitBox())) {
             me.setHealth(me.getHealth() - 1);
             knockBack(me, pw);
+            me.setAction("hit");
         }
 
         // highAttack
@@ -227,20 +229,24 @@ public class Game extends JPanel {
         if (pw.getHitbox().intersects(me.getHighHitBox())) {
             pw.setHealth(pw.getHealth() - 1);
             knockBack(pw, me);
+            pw.setAction("hit");
         }
         if (me.getHitbox().intersects(pw.getHighHitBox())) {
             me.setHealth(me.getHealth() - 1);
             knockBack(me, pw);
+            me.setAction("hit");
         }
 
         // specialAttack
         if (pw.getHitbox().intersects(me.getSpecialHitBox())) {
             pw.setHealth(pw.getHealth() - 1);
             knockBack(pw, me);
+            pw.setAction("hit");
         }
         if (me.getHitbox().intersects(pw.getSpecialHitBox())) {
             me.setHealth(me.getHealth() - 1);
             knockBack(me, pw);
+            me.setAction("hit");
         }
 
     }
@@ -250,9 +256,9 @@ public class Game extends JPanel {
         // the defender is knocked back by the attacker when they are hit by an attack
 
         if ( attacker.getX() < defender.getX() ) {
-            defender.setX(defender.getX() + knockBackDistance);
+            attacker.setX(attacker.getX() - knockBackDistance);
         } else {
-            defender.setX(defender.getX() - knockBackDistance);
+            attacker.setX(attacker.getX() + knockBackDistance);
         }
     }
 }

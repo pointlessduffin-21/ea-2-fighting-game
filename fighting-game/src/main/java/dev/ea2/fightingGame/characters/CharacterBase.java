@@ -106,6 +106,9 @@ public abstract class CharacterBase {
             case "special":
                 image = special;
                 break;
+            case "hit":
+                image = hit;
+                break;
         }
 
         if (image != null) {

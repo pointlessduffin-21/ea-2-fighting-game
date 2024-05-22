@@ -89,7 +89,12 @@ public class ME extends CharacterBase {
         } else {
             isCrouching = false;
             crouchAttackTime = 6;
-            action = "idle";
+            if (action != "hit") {
+                action = "idle";
+                System.out.print("idle");
+            } else {
+                
+            }
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && x >= 0) {
                 x -= speed;
                 System.out.println("Miles position: (" + x + ", " + y + ")");
