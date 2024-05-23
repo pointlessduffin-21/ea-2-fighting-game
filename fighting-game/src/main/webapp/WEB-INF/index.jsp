@@ -89,7 +89,6 @@
 
 <body>
 <header class="text-center text-white masthead" style="background: url('/css/background.jpg')no-repeat center center;background-size: cover;height: 126.188px;">
-    <div class="overlay" style="height: 386.188px;"></div>
     <div class="container">
         <div class="row">
             <div class="col-xl-9 mx-auto position-relative">
@@ -102,8 +101,24 @@
     <div class="container-fluid p-0">
         <div class="row justify-content-center mb-5">
             <div class="col-md-8 col-xl-6">
-                <h1 class="text-center">Scores</h1>
-                <div class="d-flex justify-content-left mb-1">
+                <br />
+                <h1 class="text-center mt-1">Scores</h1>
+                <br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2>Miles Edgeworth</h2>
+                            <div id="edgeworth-wins" class="alert alert-success"></div>
+                            <div id="edgeworth-losses" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>Phoenix Wright</h2>
+                            <div id="wright-wins" class="alert alert-success"></div>
+                            <div id="wright-losses" class="alert alert-danger"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-left mb-1 mt-1">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
                         <i class="fa fa-filter"></i>
                     </button>
@@ -148,13 +163,41 @@
 </body>
 
 <script>
-    // setInterval(getScores, 1000)
     $('#filterForm').on('submit', function(e) {
         e.preventDefault();
         let playerName = $('#playerNameFilter').val();
         let date = $('#dateFilter').val();
         getScores(playerName, date);
     });
+
+    function calculateWinsAndLosses(data) {
+        let edgeworthWins = 0;
+        let edgeworthLosses = 0;
+        let wrightWins = 0;
+        let wrightLosses = 0;
+
+        data.forEach((element) => {
+            if (element.playerName === 'Miles Edgeworth') {
+                if (element.result === 'Won') {
+                    edgeworthWins++;
+                } else {
+                    edgeworthLosses++;
+                }
+            } else if (element.playerName === 'Phoenix Wright') {
+                if (element.result === 'Won') {
+                    wrightWins++;
+                } else {
+                    wrightLosses++;
+                }
+            }
+        });
+
+        $('#edgeworth-wins').html(edgeworthWins + ' Wins');
+        $('#edgeworth-losses').html(edgeworthLosses + ' Losses');
+        $('#wright-wins').html(wrightWins + ' Wins');
+        $('#wright-losses').html(wrightLosses + ' Losses');
+    }
+
     function getScores(playerName, date) {
         $.ajax({
             url: 'http://127.0.0.1:6969/api/all',
@@ -162,6 +205,7 @@
             dataType: 'json',
             success: function(data) {
                 console.log(data);
+                calculateWinsAndLosses(data);
                 if (playerName) {
                     data = data.filter(element => element.playerName === playerName);
                 }
