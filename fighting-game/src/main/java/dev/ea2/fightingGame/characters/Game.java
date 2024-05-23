@@ -66,14 +66,20 @@ public class Game extends JPanel {
      *
      * @param imageFile Path to the background image file.
      */
-    public static void StartGameWithImage(String imageFile) {
-        Game game = new Game(5, 5, imageFile);
-        game.start();
-    }
+
 
     /**
      * Pauses the game, stops the timer, and shows the pause menu.
      */
+
+    // start the game
+
+    public static void StartGameWithImage(String imageFile) {
+        SwingUtilities .invokeLater(() -> {
+            Game game = new Game(5, 5, imageFile);
+            game.start();
+        });
+    }
     public void pause() {
         timer.stop();
         setVisible(false);
