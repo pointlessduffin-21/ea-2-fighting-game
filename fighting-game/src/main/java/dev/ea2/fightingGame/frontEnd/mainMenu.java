@@ -28,17 +28,16 @@ public class mainMenu extends JFrame {
         setLayout(new GridLayout(3, 1));
 
 
-
-    // Load the logo image from a file
+        // Load the logo image from a file
         ImageIcon logoIcon = new ImageIcon("src/main/resources/images/logo.png");
 
-     // Create a JLabel to display the logo
+        // Create a JLabel to display the logo
         JLabel logoLabel = new JLabel(logoIcon);
         logoLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the logo horizontally
 
-    // Add padding and adjust the logo position
+        // Add padding and adjust the logo position
         logoLabel.setBorder(BorderFactory.createEmptyBorder(150, 0, 50, 0)); // Adjusted padding to move the logo down
-  // Add the logo JLabel to the container
+        // Add the logo JLabel to the container
         add(logoLabel);
 
 
@@ -68,22 +67,50 @@ public class mainMenu extends JFrame {
                 System.exit(0);
             }
         });
+        quitPanel.add(quitButton);
+        add(quitPanel);
 
-        KeyStroke pKeyStroke = KeyStroke.getKeyStroke('p');
 
-        Action openAboutUsAction = new AbstractAction() {
+        // leadership button
+        JPanel leadershipPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        leadershipPanel.setOpaque(false);
+        JButton leadershipButton = new JButton("Leadership");
+        leadershipButton.setPreferredSize(new Dimension(100, 50));
+
+        // href to localhost:6969
+
+        leadershipButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost:6969"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+        quitPanel.add(leadershipButton);
+        add(quitPanel);
+
+        // about us button
+
+        JButton aboutUsButton = new JButton("About Us");
+        aboutUsButton.setPreferredSize(new Dimension(100, 50));
+        aboutUsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainMenu.this.setVisible(false);
-                aboutus.deez();
+                new aboutus().setVisible(true);
             }
-        };
+        });
 
-        getRootPane().getActionMap().put("openAboutUs", openAboutUsAction);
-
-        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(pKeyStroke, "openAboutUs");
-        quitPanel.add(quitButton);
+        quitPanel.add(aboutUsButton);
         add(quitPanel);
+
+
+
+
 
         setVisible(true);
     }

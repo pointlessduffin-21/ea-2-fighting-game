@@ -4,6 +4,10 @@ import dev.ea2.fightingGame.frontEnd.GameOver;
 import dev.ea2.fightingGame.frontEnd.pauseMenu;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -26,6 +30,7 @@ import java.util.logging.Logger;
  * It extends JPanel and includes methods for starting the game, pausing, resuming, quitting, and handling collisions.
  */
 public class Game extends JPanel {
+
 
     private static final Logger logger = Logger.getLogger(Game.class.getName());
 
@@ -80,6 +85,8 @@ public class Game extends JPanel {
             game.start();
         });
     }
+
+
     public void pause() {
         timer.stop();
         setVisible(false);
@@ -103,6 +110,23 @@ public class Game extends JPanel {
         }
     }
 
+    private void playBackgroundMusic() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/bg-music.wav")));
+            Clip backgroundMusic = AudioSystem.getClip();
+            backgroundMusic.open(audioInputStream);
+            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+            backgroundMusic.start();
+            // Volume fixed to 50%
+            // Reduce the volume of the background music
+            FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-10.0f);
+        } catch (Exception e) {
+            logger.severe("Error playing background music: " + e.getMessage());
+        }
+    }
+
+
     /**
      * Starts the game by setting up the JFrame, loading images, and starting the game loop timer.
      */
@@ -118,6 +142,7 @@ public class Game extends JPanel {
         frame.add(panel, BorderLayout.CENTER);
         frame.add(this);
 
+        playBackgroundMusic();
         loadImages();
 
         // Timer for game loop, updates game state every 60 ms
