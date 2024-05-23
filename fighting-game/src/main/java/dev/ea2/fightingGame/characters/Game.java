@@ -13,10 +13,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -112,19 +109,44 @@ public class Game extends JPanel {
 
     private void playBackgroundMusic() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/bg-music.wav")));
+            // Fetch music file from Cloudinary
+            URL cloudinaryUrl = new URL("https://res.cloudinary.com/ddemtlxll/video/upload/v1716451718/bg-music_p4sk8o.wav");
+            HttpURLConnection connection = (HttpURLConnection) cloudinaryUrl.openConnection();
+            InputStream inputStream = connection.getInputStream();
+
+            // Create a temporary file to store the music
+            File tempFile = File.createTempFile("bg-music", ".wav");
+            FileOutputStream outputStream = new FileOutputStream(tempFile);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            // Close streams
+            inputStream.close();
+            outputStream.close();
+
+            // Create audio input stream from the temporary file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(tempFile);
+
+            // Create clip for background music
             Clip backgroundMusic = AudioSystem.getClip();
             backgroundMusic.open(audioInputStream);
             backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
             backgroundMusic.start();
-            // Volume fixed to 50%
-            // Reduce the volume of the background music
+
+            // Adjust volume
             FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-10.0f);
+            gainControl.setValue(-10.0f); // Adjust volume as needed
+
+            // Delete temporary file when the application exits
+            tempFile.deleteOnExit();
         } catch (Exception e) {
             logger.severe("Error playing background music: " + e.getMessage());
         }
     }
+
 
 
     /**
