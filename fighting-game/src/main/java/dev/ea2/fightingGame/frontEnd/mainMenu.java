@@ -1,12 +1,12 @@
 package dev.ea2.fightingGame.frontEnd;
 
+import dev.ea2.fightingGame.extensions.ImagePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
-import dev.ea2.fightingGame.extensions.ImagePanel;
 
 public class mainMenu extends JFrame {
     private JButton playButton;
@@ -25,12 +25,22 @@ public class mainMenu extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         setLayout(new GridLayout(3, 1));
 
-        titleLabel = new JLabel("Order in the Court", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
-        add(titleLabel);
+
+
+    // Load the logo image from a file
+        ImageIcon logoIcon = new ImageIcon("src/main/resources/images/logo.png");
+
+     // Create a JLabel to display the logo
+        JLabel logoLabel = new JLabel(logoIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the logo horizontally
+
+    // Add padding and adjust the logo position
+        logoLabel.setBorder(BorderFactory.createEmptyBorder(150, 0, 50, 0)); // Adjusted padding to move the logo down
+  // Add the logo JLabel to the container
+        add(logoLabel);
+
 
         JPanel playPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 165));
         playPanel.setOpaque(false);
