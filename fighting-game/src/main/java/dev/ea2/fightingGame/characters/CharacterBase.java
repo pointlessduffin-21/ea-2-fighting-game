@@ -183,9 +183,9 @@ public abstract class CharacterBase {
             // Set the hitbox dimensions to match the character sprite
             hitbox.setBounds(boxX, boxY, boxWidth, boxHeight);
 
-            // Draw the hitbox (for debugging purposes)
-            g2.setColor(Color.WHITE); // Set the color for the hitbox outline
-            g2.draw(hitbox); // Draw the hitbox outline
+            // // Draw the hitbox (for debugging purposes)
+            // g2.setColor(Color.WHITE); // Set the color for the hitbox outline
+            // g2.draw(hitbox); // Draw the hitbox outline
 
             // Draw the character sprite
             g2.drawImage(image, drawX, drawY, imageWidth, imageHeight, null);
