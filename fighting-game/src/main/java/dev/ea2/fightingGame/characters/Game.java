@@ -35,7 +35,7 @@ public class Game extends JPanel {
 
     private final KeyHandler keyHandler = new KeyHandler();
     private final Phoenix phoenix;
-    private final Miles me;
+    private final Miles Miles;
 
     private BufferedImage backgroundImage;
     private BufferedImage pwHeart;
@@ -58,7 +58,7 @@ public class Game extends JPanel {
 
         // Initialize characters with health, position, speed, size, and actions
         phoenix = new Phoenix(PWHealth, 50, 600, 15, 100, 100, keyHandler, "Phoenix Wright", new String[]{"Objection!", "Present"});
-        me = new Miles(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
+        Miles = new Miles(MEHealth, 1100, 600, 15, 100, 100, keyHandler, "Miles Edgeworth", new String[]{"Objection!", "Present"});
     }
 
     /**
@@ -117,7 +117,7 @@ public class Game extends JPanel {
         // Timer for game loop, updates game state every 60 ms
         timer = new Timer(60, e -> {
             phoenix.update();
-            me.update();
+            Miles.update();
             checkCollisions();
             repaint();
             checkGameOver();
@@ -204,7 +204,7 @@ public class Game extends JPanel {
         }
 
         phoenix.draw(g2, phoenix.getName());
-        me.draw(g2, me.getName());
+        Miles.draw(g2, Miles.getName());
 
         drawHealth(g2);
 
@@ -220,7 +220,7 @@ public class Game extends JPanel {
         for (int i = 0; i < phoenix.getHealth(); i++) {
             g2.drawImage(pwHeart, i * pwHeart.getWidth(), 0, this);
         }
-        for (int i = 0; i < me.getHealth(); i++) {
+        for (int i = 0; i < Miles.getHealth(); i++) {
             g2.drawImage(mwHeart, this.getWidth() - (i + 1) * mwHeart.getWidth(), 0, this);
         }
     }
@@ -229,49 +229,56 @@ public class Game extends JPanel {
      * Checks for collisions between characters and handles the resulting interactions.
      */
     private void checkCollisions() {
-        handleCollision(phoenix, me, me.getShortHitBox());
-        handleCollision(me, phoenix, phoenix.getShortHitBox());
+        handleCollision(phoenix, Miles, Miles.getShortHitBox());
+        handleCollision(Miles, phoenix, phoenix.getShortHitBox());
 
-        handleCollision(phoenix, me, me.getLowHitBox());
-        handleCollision(me, phoenix, phoenix.getLowHitBox());
+        handleCollision(phoenix, Miles, Miles.getLowHitBox());
+        handleCollision(Miles, phoenix, phoenix.getLowHitBox());
 
-        handleCollision(phoenix, me, me.getHighHitBox());
-        handleCollision(me, phoenix, phoenix.getHighHitBox());
+        handleCollision(phoenix, Miles, Miles.getHighHitBox());
+        handleCollision(Miles, phoenix, phoenix.getHighHitBox());
 
-        handleCollision(phoenix, me, me.getSpecialHitBox());
-        handleCollision(me, phoenix, phoenix.getSpecialHitBox());
+        handleCollision(phoenix, Miles, Miles.getSpecialHitBox());
+        handleCollision(Miles, phoenix, phoenix.getSpecialHitBox());
 
-        if (phoenix.getShortHitBox().intersects(me.getShortHitBox()) && me.getShortHitBox().intersects(phoenix.getShortHitBox())) {
-            knockBack(phoenix, me);
+        if (phoenix.getShortHitBox().intersects(Miles.getShortHitBox()) && Miles.getShortHitBox().intersects(phoenix.getShortHitBox())) {
+           // increase health for both PE
+
+
+            knockBack(phoenix, Miles);
         }
 
-        if (phoenix.getLowHitBox().intersects(me.getLowHitBox()) && me.getLowHitBox().intersects(phoenix.getLowHitBox())) {
-            knockBack(phoenix, me);
+        if (phoenix.getLowHitBox().intersects(Miles.getLowHitBox()) && Miles.getLowHitBox().intersects(phoenix.getLowHitBox())) {
+            knockBack(phoenix, Miles);
         }
 
-        if (phoenix.getHighHitBox().intersects(me.getHighHitBox()) && me.getHighHitBox().intersects(phoenix.getHighHitBox())) {
-            knockBack(phoenix, me);
+        if (phoenix.getHighHitBox().intersects(Miles.getHighHitBox()) && Miles.getHighHitBox().intersects(phoenix.getHighHitBox())) {
+            knockBack(phoenix, Miles);
         }
 
-        if (phoenix.getSpecialHitBox().intersects(me.getSpecialHitBox()) && me.getSpecialHitBox().intersects(phoenix.getSpecialHitBox())) {
-            knockBack(phoenix, me);
+        if (phoenix.getSpecialHitBox().intersects(Miles.getSpecialHitBox()) && Miles.getSpecialHitBox().intersects(phoenix.getSpecialHitBox())) {
+            knockBack(phoenix, Miles);
         }
 
-        if (me.getShortHitBox().intersects(phoenix.getShortHitBox()) && phoenix.getShortHitBox().intersects(me.getShortHitBox())) {
-            knockBack(me, phoenix);
+        if (Miles.getShortHitBox().intersects(phoenix.getShortHitBox()) && phoenix.getShortHitBox().intersects(Miles.getShortHitBox())) {
+
+            knockBack(Miles, phoenix);
         }
 
-        if (me.getLowHitBox().intersects(phoenix.getLowHitBox()) && phoenix.getLowHitBox().intersects(me.getLowHitBox())) {
-            knockBack(me, phoenix);
+        if (Miles.getLowHitBox().intersects(phoenix.getLowHitBox()) && phoenix.getLowHitBox().intersects(Miles.getLowHitBox())) {
+            knockBack(Miles, phoenix);
         }
 
-        if (me.getHighHitBox().intersects(phoenix.getHighHitBox()) && phoenix.getHighHitBox().intersects(me.getHighHitBox())) {
-            knockBack(me, phoenix);
+        if (Miles.getHighHitBox().intersects(phoenix.getHighHitBox()) && phoenix.getHighHitBox().intersects(Miles.getHighHitBox())) {
+            knockBack(Miles, phoenix);
         }
 
-        if (me.getSpecialHitBox().intersects(phoenix.getSpecialHitBox()) && phoenix.getSpecialHitBox().intersects(me.getSpecialHitBox())) {
-            knockBack(me, phoenix);
+        if (Miles.getSpecialHitBox().intersects(phoenix.getSpecialHitBox()) && phoenix.getSpecialHitBox().intersects(Miles.getSpecialHitBox())) {
+            knockBack(Miles, phoenix);
         }
+
+
+
     }
 
     /**
@@ -294,6 +301,17 @@ public class Game extends JPanel {
             if (!defender.isInvulnerable()) {
                 // Subtract health from the attacker
                 attacker.setHealth(attacker.getHealth() - 1);
+
+                // Check if it's a short attack hit box and increment the attacker's health
+                if (hitBox.equals(defender.getShortHitBox())) {
+                    defender.setHealth(defender.getHealth() + 1);
+                    // limit to 5
+
+                    if (defender.getHealth() > 5) {
+                        defender.setHealth(5);
+                    }
+                }
+
                 // Set the defender's action to "hit" to display the hit animation
                 defender.setAction("hit");
                 // Apply knockback effect to the defender
@@ -316,6 +334,7 @@ public class Game extends JPanel {
             }
         }
     }
+
 
 
     /**
@@ -353,22 +372,24 @@ public class Game extends JPanel {
      * Checks if the game is over and handles the end game logic, including sending results to the server.
      */
     private void checkGameOver() {
-        if (phoenix.getHealth() <= 0 || me.getHealth() <= 0) {
+        if (phoenix.getHealth() <= 0 || Miles.getHealth() <= 0) {
             timer.stop();
             setVisible(false);
-            GameOver.screen();
 
+            String winnerName;
             if (phoenix.getHealth() <= 0) {
+                winnerName = Miles.getName();
                 sendPostRequest(phoenix.getName(), "Lost");
+                sendPostRequest(Miles.getName(), "Won");
             } else {
+                winnerName = phoenix.getName();
                 sendPostRequest(phoenix.getName(), "Won");
+                sendPostRequest(Miles.getName(), "Lost");
             }
 
-            if (me.getHealth() <= 0) {
-                sendPostRequest(me.getName(), "Lost");
-            } else {
-                sendPostRequest(me.getName(), "Won");
-            }
+            GameOver.screen(winnerName);
         }
     }
+
 }
+
