@@ -196,4 +196,9 @@ public abstract class CharacterBase {
         this.invulnerable = invulnerable;
     }
 
+    public Rectangle getShortHitBox() {
+        return hitbox;
+
+
+    }
 }
