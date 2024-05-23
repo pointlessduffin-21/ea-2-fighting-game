@@ -1,0 +1,20 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\yeems214\ea-2-fighting-game\fighting-game\OrderInTheCourt.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\yeems214\ea-2-fighting-game\fighting-game\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-19
+Substitute:	PATH = C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Tailscale\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk-19\bin;C:\Users\yeems214\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\yeems214\AppData\Local\Programs\Python\Python311\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\yeems214\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\yeems214\AppData\Local\Programs\Python\Python312\;C:\Users\yeems214\scoop\shims;C:\Users\yeems214\AppData\Local\Microsoft\WindowsApps;C:\Users\yeems214\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\yeems214\AppData\Local\Programs\Microsoft VS Code Insiders\bin;C:\Users\yeems214\AppData\Roaming\npm;C:\Program Files\Java\jdk-19\bin
+JRE paths:	C:\Program Files\Java\jdk-19;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Tailscale\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk-19\bin;C:\Users\yeems214\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\yeems214\AppData\Local\Programs\Python\Python311\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\yeems214\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\yeems214\AppData\Local\Programs\Python\Python312\;C:\Users\yeems214\scoop\shims;C:\Users\yeems214\AppData\Local\Microsoft\WindowsApps;C:\Users\yeems214\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\yeems214\AppData\Local\Programs\Microsoft VS Code Insiders\bin;C:\Users\yeems214\AppData\Roaming\npm;C:\Program Files\Java\jdk-19\bin
+Check launcher:	C:\Program Files\Java\jdk-19\bin\javaw.exe (OK)
+Version string: 1.019.000_002 / 64-Bit (OK)
+Launcher:	C:\Program Files\Java\jdk-19\bin\javaw.exe
+Launcher args:	-jar "C:\Users\yeems214\ea-2-fighting-game\fighting-game\OrderInTheCourt.exe"
+Args length:	77/32768 chars
+Exit code:	0
