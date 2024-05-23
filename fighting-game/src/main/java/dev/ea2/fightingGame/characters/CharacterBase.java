@@ -23,6 +23,9 @@ public abstract class CharacterBase {
 
     protected static final Logger logger = Logger.getLogger(CharacterBase.class.getName());
 
+
+    private boolean invulnerable;
+
     // Character attributes
     protected int health;
     protected int x;
@@ -57,11 +60,11 @@ public abstract class CharacterBase {
      * Constructor to initialize the character with specific attributes.
      *
      * @param health Initial health of the character.
-     * @param x Initial x-coordinate of the character.
-     * @param y Initial y-coordinate of the character.
-     * @param speed Speed at which the character moves.
+     * @param x      Initial x-coordinate of the character.
+     * @param y      Initial y-coordinate of the character.
+     * @param speed  Speed at which the character moves.
      * @param height Height of the character.
-     * @param width Width of the character.
+     * @param width  Width of the character.
      */
     public CharacterBase(int health, int x, int y, int speed, int height, int width) {
         this.health = health;
@@ -70,6 +73,8 @@ public abstract class CharacterBase {
         this.speed = speed;
         this.height = height;
         this.width = width;
+        this.invulnerable = false; // Initialize invulnerability to false
+
     }
 
     /**
@@ -103,7 +108,7 @@ public abstract class CharacterBase {
     /**
      * Draws the character on the screen based on its current action.
      *
-     * @param g2 The Graphics2D object used for drawing.
+     * @param g2   The Graphics2D object used for drawing.
      * @param name The name of the character, used to determine specific drawing parameters.
      */
     public void draw(Graphics2D g2, String name) {
@@ -186,4 +191,9 @@ public abstract class CharacterBase {
             g2.drawImage(image, drawX, drawY, imageWidth, imageHeight, null);
         }
     }
+
+    public void setInvulnerable(boolean invulnerable) {
+        this.invulnerable = invulnerable;
+    }
+
 }

@@ -101,8 +101,6 @@ public class Miles extends CharacterBase {
             if (action != "hit") {
                 action = "idle";
                 System.out.print("idle");
-            } else {
-                // Handle hit action
             }
             if (keyHandler.isKeyDown(KeyEvent.VK_LEFT) && x >= 0) {
                 x -= speed;

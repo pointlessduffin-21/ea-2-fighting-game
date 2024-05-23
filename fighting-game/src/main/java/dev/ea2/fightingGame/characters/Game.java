@@ -276,19 +276,47 @@ public class Game extends JPanel {
 
     /**
      * Handles collision between an attacker and a defender within a specified hit box.
+     * If the defender is not invulnerable, subtracts health from the attacker,
+     * sets the defender's action to "hit", applies knockback to the defender,
+     * and makes the defender invulnerable for a short duration.
      *
      * @param attacker The character initiating the attack.
      * @param defender The character receiving the attack.
-     * @param hitBox The hit box where the collision is checked.
+     * @param hitBox   The hit box where the collision is checked.
+     *
+     *                 attack = phoenix
+     *                 defender = Miles
      */
     private void handleCollision(CharacterBase attacker, CharacterBase defender, Rectangle hitBox) {
+        // Check if the attacker's hitbox intersects with the defender's hitbox
         if (attacker.getHitbox().intersects(hitBox)) {
-            attacker.setHealth(attacker.getHealth() - 1);
-            knockBack(attacker, defender);
-            attacker.setAction("hit");
+            // Check if the defender is not invulnerable
+            if (!defender.isInvulnerable()) {
+                // Subtract health from the attacker
+                attacker.setHealth(attacker.getHealth() - 1);
+                // Set the defender's action to "hit" to display the hit animation
+                defender.setAction("hit");
+                // Apply knockback effect to the defender
+                knockBack(attacker, defender);
 
+                // Create a timer to reset the defender's action and invulnerability after a short delay
+                Timer timer = new Timer(500, e -> {
+                    // Reset the attacker's action to "idle" the one toke the damage
+                    attacker.setAction("idle");
+                    // Make the defender vulnerable again
+                    defender.setInvulnerable(false);
+                });
+                timer.setRepeats(false); // Set to execute only once
+                timer.start();
+
+                // Set the attacker's action to "hit" to display the hit animation
+                attacker.setAction("hit");
+                // Make the defender invulnerable during the delay
+                defender.setInvulnerable(true);
+            }
         }
     }
+
 
     /**
      * Applies knockback effect to the attacker based on the defender's position.
@@ -304,6 +332,21 @@ public class Game extends JPanel {
         } else {
             attacker.setX(attacker.getX() + knockBackDistance);
         }
+
+        // if knockback still limit the character out of border
+
+        if (attacker.getX() < 0) {
+            attacker.setX(0);
+        } else if (attacker.getX() > 1165) {
+            attacker.setX(1165);
+        } else  if (attacker.getY() < 0) {
+            attacker.setY(0);
+        } else if (attacker.getY() > 600) {
+            attacker.setY(600);
+        }
+
+
+
     }
 
     /**
