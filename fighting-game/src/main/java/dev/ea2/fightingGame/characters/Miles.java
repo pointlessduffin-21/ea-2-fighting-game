@@ -178,14 +178,14 @@ public class Miles extends CharacterBase {
         super.draw(g2, name);
 
         // Draw hit boxes for debugging purposes
-        g2.setColor(Color.YELLOW);
-        g2.draw(shortHitBox);
-        g2.setColor(Color.RED);
-        g2.draw(lowHitBox);
-        g2.setColor(Color.GREEN);
-        g2.draw(highHitBox);
-        g2.setColor(Color.BLUE);
-        g2.draw(specialHitBox);
+        // g2.setColor(Color.YELLOW);
+        // g2.draw(shortHitBox);
+        // g2.setColor(Color.RED);
+        // g2.draw(lowHitBox);
+        // g2.setColor(Color.GREEN);
+        // g2.draw(highHitBox);
+        // g2.setColor(Color.BLUE);
+        // g2.draw(specialHitBox);
     }
 }
 
