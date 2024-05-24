@@ -109,26 +109,10 @@ public class Game extends JPanel {
 
     private void playBackgroundMusic() {
         try {
-            // Fetch music file from Cloudinary
-            URL cloudinaryUrl = new URL("https://res.cloudinary.com/ddemtlxll/video/upload/v1716451718/bg-music_p4sk8o.wav");
-            HttpURLConnection connection = (HttpURLConnection) cloudinaryUrl.openConnection();
-            InputStream inputStream = connection.getInputStream();
-
-            // Create a temporary file to store the music
-            File tempFile = File.createTempFile("bg-music", ".wav");
-            FileOutputStream outputStream = new FileOutputStream(tempFile);
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            // Close streams
-            inputStream.close();
-            outputStream.close();
+            String musicFile = "src/main/resources/audio/bg-music.wav";
 
             // Create audio input stream from the temporary file
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(tempFile);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(musicFile));
 
             // Create clip for background music
             Clip backgroundMusic = AudioSystem.getClip();
@@ -139,9 +123,6 @@ public class Game extends JPanel {
             // Adjust volume
             FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-10.0f); // Adjust volume as needed
-
-            // Delete temporary file when the application exits
-            tempFile.deleteOnExit();
         } catch (Exception e) {
             logger.severe("Error playing background music: " + e.getMessage());
         }
